@@ -1,0 +1,25 @@
+<section class="bg-gray-100 py-10">
+  <div class="container mx-auto text-center">
+    <h1 class="text-4xl font-bold mb-4">Hi, I'm Priyanka Giri</h1>
+    <p class="text-xl text-gray-600 mb-6">
+      Experienced Software Engineer with expertise in Angular, React, Python, Node.js, and more.
+    </p>
+    <a href="/assets/Priyanka_Giri_CV.pdf" download class="bg-yellow-400 text-white px-6 py-2 rounded hover:bg-yellow-500">
+      Download CV
+    </a>
+  </div>
+</section>
+<section class="py-10">
+  <div class="container mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Technical Skills</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        *ngFor="let skill of technicalSkills"
+        class="p-4 bg-white shadow rounded"
+      >
+        <h3 class="text-lg font-bold mb-2">{{ skill.category }}</h3>
+        <p>{{ skill.skills }}</p>
+      </div>
+    </div>
+  </div>
+</section>
