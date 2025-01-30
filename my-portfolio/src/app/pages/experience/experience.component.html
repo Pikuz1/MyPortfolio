@@ -1,1 +1,8 @@
-<p>experience works!</p>
+<section class="p-6">
+  <h1 class="text-3xl font-bold text-center mb-6">Experience</h1>
+  <div *ngFor="let job of experiences" class="mb-4 p-4 border">
+    <h2 class="text-xl font-semibold">{{ job.company }} - {{ job.role }}</h2>
+    <p class="text-sm">{{ job.duration }}</p>
+    <p>{{ job.description }}</p>
+  </div>
+</section>

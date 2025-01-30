@@ -1,1 +1,7 @@
-<p>education works!</p>
+<section class="p-6">
+  <h1 class="text-3xl font-bold text-center mb-6">Education</h1>
+  <div *ngFor="let edu of education" class="mb-4 p-4 border">
+    <h2 class="text-xl font-semibold">{{ edu.school }}</h2>
+    <p class="text-sm">{{ edu.degree }} ({{ edu.year }})</p>
+  </div>
+</section>
