@@ -1,8 +1,47 @@
-<section class="p-6">
+<section class="p-6 animate-fadeIn">
   <h1 class="text-3xl font-bold text-center mb-6">Skills</h1>
-  <div class="flex flex-wrap justify-center">
-    <div *ngFor="let skill of skills" class="m-2 px-4 py-2 bg-gray-800 text-white rounded">
-      {{ skill }}
+
+  <!-- Technical Skills Section -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-blue-600 mb-4">Technical Skills</h2>
+    <div class="flex flex-wrap justify-center">
+      <span *ngFor="let skill of skills.technical"
+        class="m-2 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+        {{ skill }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Tools Section -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-green-600 mb-4">Tools & Platforms</h2>
+    <div class="flex flex-wrap justify-center">
+      <span *ngFor="let tool of skills.tools"
+        class="m-2 px-4 py-2 bg-green-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+        {{ tool }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Soft Skills Section -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-purple-600 mb-4">Soft Skills</h2>
+    <div class="flex flex-wrap justify-center">
+      <span *ngFor="let softSkill of skills.softSkills"
+        class="m-2 px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+        {{ softSkill }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Language Skills Section -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-red-600 mb-4">Languages</h2>
+    <div class="flex flex-wrap justify-center">
+      <span *ngFor="let lang of skills.languages"
+        class="m-2 px-4 py-2 bg-red-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+        {{ lang.name }} - {{ lang.level }}
+      </span>
     </div>
   </div>
 </section>

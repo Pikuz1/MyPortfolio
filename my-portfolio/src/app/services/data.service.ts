@@ -4,17 +4,41 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
+
   getAboutMe() {
     return {
       name: 'Priyanka Giri',
       role: 'Software Engineer',
-      description: `I am a Software Engineer with a strong technical background in Full-Stack Development, specializing in Angular, React, TypeScript, and Python. With a Master’s in Computer Science from Paderborn University, I have gained expertise in designing and building scalable applications, leveraging modern frameworks and cloud technologies. My professional journey includes developing B2B solutions, automation in construction, and cryptocurrency exchange platforms, where I played a key role in frontend architecture, API integration, automated testing, and CI/CD workflows.
+      description: [
+        `I am an <strong>experienced software professional</strong> with a strong technical background in
+        <strong>Software Engineering</strong>. I hold a <strong>Master’s in Computer Science</strong> from
+        <strong>Paderborn University</strong>, specializing in <strong>Software Development</strong> and
+        <strong>Computer Networking</strong>. With hands-on experience in <strong>Angular</strong>, <strong>React</strong>,
+        <strong>Python</strong>, <strong>Node.js</strong>, <strong>DevOps</strong>, and <strong>automated testing frameworks</strong>,
+        I have built scalable applications across different industries.`,
 
-Beyond coding, I have a deep interest in networking and AI-driven solutions, contributing to projects on hybrid communication networks and AI-powered routing algorithms. My experience spans building intuitive user interfaces, optimizing performance, and ensuring robust software quality through automated testing frameworks like Cypress and Playwright. With a passion for continuous learning, I am currently pursuing AWS Solutions Architect certification to expand my cloud expertise.
+        `My professional journey began as a <strong>Junior Frontend Developer</strong>, where I developed reusable
+        components and created data visualization applications using <strong>React, Redux, and AWS Lambda</strong>.
+        Later, as a <strong>Software Engineer</strong> at <strong>Specter Automation</strong>, I worked on designing,
+        developing, and testing digitalized B2B construction solutions, integrating <strong>ThreeJS</strong> for BIM
+        engine enhancements and automating testing with <strong>Playwright</strong>. Throughout my career, I have
+        focused on performance optimization, debugging, and CI/CD automation.`,
 
-`
+        `Beyond my professional experience, I was the <strong>Technical Secretary</strong> of my college during
+        <strong>2017-2018</strong>. I managed all <strong>technical events</strong> during the annual technical festival,
+        ensuring efficient <strong>resource and time management</strong> with prioritized task execution. I also conducted
+        <strong>LAN (COD) gaming sessions</strong> for students each year, creating a competitive and engaging
+        environment that brought together technology enthusiasts.`,
+
+        `I am passionate about <strong>problem-solving</strong>, <strong>AI-driven solutions</strong>, and <strong>cloud technologies</strong>.
+        My ongoing learning journey includes earning an <strong>AWS Solutions Architect Associate Certification</strong>
+        to deepen my cloud expertise. I strive to innovate and build impactful software that enhances efficiency and
+        user experience in various domains.`
+      ],
+      resumeLink: '/assets/Priyanka_Giri_CV.pdf'
     };
   }
+
 
   getExperience() {
     return [
@@ -22,13 +46,30 @@ Beyond coding, I have a deep interest in networking and AI-driven solutions, con
         company: 'Specter Automation',
         role: 'Software Engineer',
         duration: 'May 2022 – Oct 2023',
-        description: `Developed digitalized B2B construction products using Angular16, TailwindCSS, Docker, and AWS S3. Built new features in BIM Engine using ThreeJS.`
+        description: [
+          'Designed, developed, and tested a digitalized B2B construction product using Angular 16, TailwindCSS, Docker, CI/CD, and AWS S3.',
+          'Built new features in the BIM Engine using ThreeJS.',
+          'Integrated automated testing framework using Playwright.',
+          'Conducted code reviews, debugging sessions, and optimized software performance.'
+        ]
       },
       {
         company: 'Coindex',
         role: 'Junior Frontend Developer',
         duration: 'Dec 2019 - Aug 2021',
-        description: `Developed reusable components for a B2B cryptocurrency exchange using React, Redux, and AWS Lambda.`
+        description: [
+          'Developed reusable components for a B2B cryptocurrency exchange platform using React, Redux, and AWS Lambda.',
+          'Created a data visualization single-page application using API, Redux, and ChartJS.',
+          'Built automated tests using Cypress for efficient QA testing.'
+        ]
+      },
+      {
+        company: 'iDeators Technologies',
+        role: 'Angular Developer',
+        duration: 'Dec 2017 - Dec 2018',
+        description: [
+          'Developed B2C E-commerce website components using Angular6, TypeScript, Bootstrap, and Firebase.'
+        ]
       }
     ];
   }
@@ -36,18 +77,53 @@ Beyond coding, I have a deep interest in networking and AI-driven solutions, con
   getProjects() {
     return [
       {
-        title: 'Near-Shortest Path Routing in Hybrid Networks',
-        description: 'Developed a hybrid communication system using Unit Disk Graph abstraction with Python and ns-3.'
+        title: 'Near-Shortest Path Routing in Hybrid Communication Networks Using ns-3',
+        institution: 'Paderborn University (Aug 2024 – Jan 2025)',
+        description: [
+          'Developed a hybrid communication system using Unit Disk Graph (UDG) abstraction to grid-based networks in Python.',
+          'Designed binary tree-based portal structures with interval-based labeling using ns-3 and Matplotlib.',
+          'Integrated visualization of UDG-to-grid transformations for efficient routing.'
+        ]
       },
       {
         title: 'AICON: AI for Computer Networks',
-        description: 'Implemented reinforcement learning algorithms for wireless network optimization using TensorFlow.'
+        institution: 'Paderborn University (Apr 2020 – Mar 2021)',
+        description: [
+          'Implemented AI-based packet routing algorithms in wireless networks using TensorFlow.',
+          'Analyzed reinforcement learning algorithms to optimize packet transfer efficiency.',
+          'Visualized packet movement using NetworkX.'
+        ]
+      },
+      {
+        title: 'Car Damage Assessment for Insurance',
+        institution: 'Mumbai University (Jun 2018 – May 2019)',
+        description: [
+          'Developed a machine learning model for car damage classification using Python.',
+          'Implemented transfer learning and ensemble learning techniques.',
+          'Built the frontend using Angular.',
+          'Published research paper: "Damage Assessment for Car Insurance".'
+        ]
       }
     ];
   }
 
   getSkills() {
-    return ['Angular', 'React', 'TypeScript', 'Python', 'Node.js', 'GraphQL', 'AWS', 'Docker', 'TailwindCSS'];
+    return {
+      technical: [
+        'Angular', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML5', 'SCSS', 'Python', 'GraphQL', 'SQL',
+        'Cypress', 'Playwright', 'Redux', 'MongoDB', 'ChartJS', 'ThreeJS', 'TensorFlow', 'NetworkX'
+      ],
+      tools: [
+        'GitHub', 'Docker', 'AWS', 'Jira', 'ClickUp', 'Slack', 'Trello'
+      ],
+      softSkills: [
+        'Leadership', 'Mentoring', 'Debugging', 'Troubleshooting', 'Code Review', 'Code Management'
+      ],
+      languages: [
+        { name: 'English', level: 'C1' },
+        { name: 'German', level: 'A2' }
+      ]
+    };
   }
 
   getEducation() {
@@ -59,12 +135,13 @@ Beyond coding, I have a deep interest in networking and AI-driven solutions, con
 
   getCertifications() {
     return [
-      { name: 'AWS Solutions Architect Associate', year: '2024 - Ongoing' }
+      { name: 'AWS Solutions Architect Associate Certification', year: 'Sept. 2024 - Ongoing' }
     ];
   }
 
   getContact() {
     return {
+      phone: '017657783896',
       email: 'priyankagiri.oyeindia@gmail.com',
       linkedin: 'https://linkedin.com/in/priyanka-giri-fullstack-developer/',
       github: 'https://github.com/Pikuz1'
