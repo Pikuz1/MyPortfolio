@@ -1,23 +1,31 @@
 <section class="p-6 bg-gray-100 text-gray-900 animate-fadeIn">
   <h1 class="text-3xl font-bold text-center mb-6">Contact Me</h1>
 
-  <div class="flex flex-wrap justify-center">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Contact Details -->
-    <div class="w-full md:w-1/2 p-4">
+    <div class="p-4 text-center md:text-left">
       <h2 class="text-2xl font-semibold">Get in Touch</h2>
-      <p class="text-lg">Email: <a href="mailto:{{ contact.email }}" class="text-blue-500">{{ contact.email }}</a></p>
+      <p class="text-lg mt-2">
+        Email: <a href="mailto:{{ contact.email }}" class="text-blue-500">{{ contact.email }}</a>
+      </p>
       <p class="text-lg">Location: {{ contact.address.location }}</p>
     </div>
 
-    <!-- Google Map Embed -->
-    <div class="w-full md:w-1/2 p-4">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42933.22469351866!2d10.264157779998873!3d47.736318603278555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c7907da67c911%3A0xbca5bb95c833b02b!2sKempten!5e0!3m2!1sen!2sde!4v1738253394505!5m2!1sen!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <!-- Google Map Embed (Responsive) -->
+    <div class="p-4">
+      <iframe
+        class="w-full h-64 md:h-80 lg:h-96 rounded-lg shadow-lg"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42933.22469351866!2d10.264157779998873!3d47.736318603278555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c7907da67c911%3A0xbca5bb95c833b02b!2sKempten!5e0!3m2!1sen!2sde!4v1738253394505!5m2!1sen!2sde"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
     </div>
   </div>
 
   <!-- Contact Form -->
   <div class="max-w-lg mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
-    <h2 class="text-2xl font-semibold text-center mb-4">Code, Coffee & Conversations ☕💻 <br> Let’s Connect!</h2>
+    <h2 class="text-2xl font-semibold text-center mb-4">
+      Code, Coffee & Conversations ☕💻 <br> Let’s Connect!
+    </h2>
     <form #contactForm="ngForm" (ngSubmit)="sendEmail(contactForm)">
       <div class="mb-4">
         <label class="block text-lg font-medium">Name</label>

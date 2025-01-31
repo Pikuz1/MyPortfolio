@@ -1,10 +1,13 @@
-<section class="p-6 animate-fadeIn">
+<section class="p-6">
   <h1 class="text-3xl font-bold text-center mb-6">Projects</h1>
-  <div *ngFor="let project of projects" class="mb-6 p-6 border rounded-lg shadow-lg hover:shadow-2xl transition">
-    <h2 class="text-xl font-semibold">{{ project.title }}</h2>
-    <h3 class="text-sm italic">{{ project.institution }}</h3>
-    <ul class="list-disc list-inside mt-2">
-      <li *ngFor="let point of project.description">{{ point }}</li>
-    </ul>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let project of projects" class="p-4 bg-white rounded-lg shadow-lg hover:shadow-2xl transition">
+      <h2 class="text-xl font-semibold">{{ project.title }}</h2>
+      <p class="text-sm italic">{{ project.institution }}</p>
+      <ul class="list-disc list-inside mt-2">
+        <li *ngFor="let point of project.description">{{ point }}</li>
+      </ul>
+    </div>
   </div>
 </section>

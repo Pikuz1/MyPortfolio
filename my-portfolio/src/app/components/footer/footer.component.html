@@ -1,9 +1,9 @@
-<footer class="bg-gray-900 text-white text-center p-4 fixed bottom-0 w-full flex justify-center space-x-6">
-  <a href="{{ contact.linkedin }}" target="_blank" class="text-2xl hover:text-gray-400">
+<footer class="bg-gray-900 text-white text-center p-4 w-full flex flex-col md:flex-row justify-center md:space-x-6">
+  <a [href]="contact.linkedin" target="_blank" class="text-2xl hover:text-gray-400">
     <i class="fab fa-linkedin"></i>
   </a>
-  <a href="{{ contact.github }}" target="_blank" class="text-2xl hover:text-gray-400">
+  <a [href]="contact.github" target="_blank" class="text-2xl hover:text-gray-400">
     <i class="fab fa-github"></i>
   </a>
-  <p class="text-sm">&copy; 2025 Priyanka Giri</p>
+  <p class="text-sm mt-2 md:mt-0">&copy; 2025 Priyanka Giri</p>
 </footer>

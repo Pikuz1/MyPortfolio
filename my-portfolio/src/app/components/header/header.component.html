@@ -1,27 +1,36 @@
-<nav class="bg-gray-900 text-white p-4 flex justify-between fixed w-full top-0 shadow-lg z-50">
+<nav class="bg-gray-900 text-white p-4 flex justify-between items-center fixed w-full top-0 shadow-lg z-50">
+  <!-- Logo / Home Link -->
   <a class="text-xl font-bold flex items-center cursor-pointer" (click)="navigateTo('')">
     <i class="fas fa-home mr-2"></i> Priyanka Giri
   </a>
-  <div class="flex space-x-4">
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('about')">
+
+  <!-- Mobile Menu Button -->
+  <button (click)="toggleMenu()" class="md:hidden text-white text-2xl">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Navbar Links (Responsive) -->
+  <div [ngClass]="{'hidden': !menuOpen, 'block': menuOpen, 'md:flex': true}"
+       class="absolute md:static top-16 left-0 w-full md:w-auto bg-gray-900 md:bg-transparent md:space-x-4 p-4 md:p-0">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('about')">
       <i class="fas fa-user mr-2"></i> About
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('experience')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('experience')">
       <i class="fas fa-briefcase mr-2"></i> Experience
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('projects')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('projects')">
       <i class="fas fa-project-diagram mr-2"></i> Projects
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('skills')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('skills')">
       <i class="fas fa-tools mr-2"></i> Skills
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('education')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('education')">
       <i class="fas fa-graduation-cap mr-2"></i> Education
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('certifications')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('certifications')">
       <i class="fas fa-certificate mr-2"></i> Certifications
     </a>
-    <a class="flex items-center px-3 hover:text-gray-400 cursor-pointer" (click)="navigateTo('contact')">
+    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('contact')">
       <i class="fas fa-envelope mr-2"></i> Contact
     </a>
   </div>
