@@ -77,11 +77,11 @@ export class DataService {
   getProjects() {
     return [
       {
-        title: 'Near-Shortest Path Routing in Hybrid Communication Networks Using ns-3',
+        title: 'Near-Shortest Path Routing in Hybrid Communication Networks Using Python',
         institution: 'Paderborn University (Aug 2024 – Jan 2025)',
         description: [
           'Developed a hybrid communication system using Unit Disk Graph (UDG) abstraction to grid-based networks in Python.',
-          'Designed binary tree-based portal structures with interval-based labeling using ns-3 and Matplotlib.',
+          'Designed binary tree-based portal structures with interval-based labeling using networkx and Matplotlib.',
           'Integrated visualization of UDG-to-grid transformations for efficient routing.'
         ]
       },
