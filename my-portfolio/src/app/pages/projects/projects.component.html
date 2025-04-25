@@ -1,8 +1,8 @@
-<section class="p-6">
+<section class="p-6 text-white">
   <h1 class="text-3xl font-bold text-center mb-6">Projects</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let project of projects" class="p-4 bg-white rounded-lg shadow-lg hover:shadow-2xl transition">
+    <div *ngFor="let project of projects" class="p-4 border rounded-lg shadow-lg hover:shadow-2xl transition">
       <h2 class="text-xl font-semibold">{{ project.title }}</h2>
       <p class="text-sm italic">{{ project.institution }}</p>
       <ul class="list-disc list-inside mt-2">

@@ -110,7 +110,7 @@ export class DataService {
   getSkills() {
     return {
       technical: [
-        'Angular', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML5', 'SCSS', 'Python', 'GraphQL', 'SQL',
+        'Angular', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML5', 'SCSS', 'Python', 'WebGL', 'SQL',
         'Cypress', 'Playwright', 'Redux', 'MongoDB', 'ChartJS', 'ThreeJS', 'TensorFlow', 'NetworkX'
       ],
       tools: [
@@ -135,7 +135,7 @@ export class DataService {
 
   getCertifications() {
     return [
-      { name: 'AWS Solutions Architect Associate Certification', year: 'Sept. 2024 - Ongoing' }
+      { name: 'AWS Solutions Architect Associate Certification', year: 'Jan. 2025 - Ongoing' }
     ];
   }
 
