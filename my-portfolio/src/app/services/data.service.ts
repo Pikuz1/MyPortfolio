@@ -107,25 +107,6 @@ export class DataService {
     ];
   }
 
-  getSkills() {
-    return {
-      technical: [
-        'Angular', 'React', 'TypeScript', 'JavaScript', 'CSS', 'HTML5', 'SCSS', 'Python', 'WebGL', 'SQL',
-        'Cypress', 'Playwright', 'Redux', 'MongoDB', 'ChartJS', 'ThreeJS', 'TensorFlow', 'NetworkX'
-      ],
-      tools: [
-        'GitHub', 'Docker', 'AWS', 'Jira', 'ClickUp', 'Slack', 'Trello'
-      ],
-      softSkills: [
-        'Leadership', 'Mentoring', 'Debugging', 'Troubleshooting', 'Code Review', 'Code Management'
-      ],
-      languages: [
-        { name: 'English', level: 'C1' },
-        { name: 'German', level: 'A2' }
-      ]
-    };
-  }
-
   getEducation() {
     return [
       { school: 'Paderborn University', degree: 'Masters in Computer Science', year: '2019 - 2025' },

@@ -1,29 +1,36 @@
-<section class="p-6 animate-fadeIn text-white ">
+<!-- <section class="p-6 animate-fadeIn text-white ">
   <h1 class="text-3xl font-bold text-center mb-6">Skills</h1>
 
-  <!-- Technical Skills Section -->
   <div class="mb-6">
     <h2 class="text-2xl font-semibold text-blue-600 mb-4">Technical Skills</h2>
     <div class="flex flex-wrap justify-center">
-      <span *ngFor="let skill of skills.technical"
+      <span *ngFor="let skill of skills.technical_languages"
         class="m-2 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:scale-105 transition transform">
         {{ skill }}
       </span>
     </div>
   </div>
 
-  <!-- Tools Section -->
   <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-green-600 mb-4">Tools & Platforms</h2>
+    <h2 class="text-2xl font-semibold text-yellow-600 mb-4">Developer Tools</h2>
     <div class="flex flex-wrap justify-center">
-      <span *ngFor="let tool of skills.tools"
-        class="m-2 px-4 py-2 bg-green-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+      <span *ngFor="let tool of skills.developer_tools"
+        class="m-2 px-4 py-2 bg-yellow-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
         {{ tool }}
       </span>
     </div>
   </div>
 
-  <!-- Soft Skills Section -->
+  <div class="mb-6">
+    <h2 class="text-2xl font-semibold text-green-600 mb-4">Frameworks</h2>
+    <div class="flex flex-wrap justify-center">
+      <span *ngFor="let framework of skills.frameworks"
+        class="m-2 px-4 py-2 bg-green-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
+        {{ framework }}
+      </span>
+    </div>
+  </div>
+
   <div class="mb-6">
     <h2 class="text-2xl font-semibold text-purple-600 mb-4">Soft Skills</h2>
     <div class="flex flex-wrap justify-center">
@@ -34,7 +41,6 @@
     </div>
   </div>
 
-  <!-- Language Skills Section -->
   <div class="mb-6">
     <h2 class="text-2xl font-semibold text-red-600 mb-4">Languages</h2>
     <div class="flex flex-wrap justify-center">
@@ -44,4 +50,38 @@
       </span>
     </div>
   </div>
-</section>
+</section> -->
+
+<!-- skills.component.html -->
+<div class="skills-container">
+  <div class="header">
+    <h2>Skills & Expertise</h2>
+    <p>Interactive 3D visualization of my technical skills</p>
+  </div>
+
+  <div class="content">
+    <div class="canvas-container" #canvasContainer></div>
+
+    <div class="category-selector">
+      <button
+        *ngFor="let category of skillCategories"
+        (click)="selectCategory(category.id)"
+        [class.active]="selectedCategory === category.id"
+        class="category-btn">
+        {{ category.name }}
+      </button>
+    </div>
+
+    <div class="skill-details" *ngIf="selectedSkill">
+      <h3>{{ selectedSkill.name }}</h3>
+      <p>{{ selectedSkill.description }}</p>
+      <span class="category-tag">{{ selectedSkill.category }}</span>
+    </div>
+  </div>
+
+  <div class="instructions">
+    <p>Drag to rotate the sphere • Scroll to zoom • Click on a skill for details</p>
+  </div>
+</div>
+
+
