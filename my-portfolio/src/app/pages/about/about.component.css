@@ -1,0 +1,20 @@
+.glass-section {
+  width: 90%;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); /* Safari support */
+
+  background: rgba(10, 25, 47, 0.2);
+  border: 1px solid rgba(100, 255, 218, 0.1);
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+
+  color: white;
+  position: relative;
+}

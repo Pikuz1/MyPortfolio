@@ -131,8 +131,8 @@ export class DataService {
 
   getEducation() {
     return [
-      { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: '2019 – 2026' },
-      { school: 'Mumbai University', degree: 'Bachelor’s in Computer Engineering', year: '2015 – 2019' }
+      { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: 'Oct. 2019 – Jan. 2026' },
+      { school: 'Mumbai University', degree: 'Bachelor’s in Computer Engineering', year: 'Jun. 2015 – May 2019' }
     ];
   }
 
