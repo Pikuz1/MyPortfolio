@@ -8,67 +8,80 @@ export class DataService {
   getAboutMe() {
     return {
       name: 'Priyanka Giri',
-      role: 'Software Engineer',
+      role: 'Frontend / UI Engineer',
       description: [
-        `I am an <strong>experienced software professional</strong> with a strong technical background in
-        <strong>Software Engineering</strong>. I hold a <strong>Master’s in Computer Science</strong> from
-        <strong>Paderborn University</strong>, specializing in <strong>Software Development</strong> and
-        <strong>Computer Networking</strong>. With hands-on experience in <strong>Angular</strong>, <strong>React</strong>,
-        <strong>Python</strong>, <strong>Node.js</strong>, <strong>DevOps</strong>, and <strong>automated testing frameworks</strong>,
-        I have built scalable applications across different industries.`,
+        `I am a <strong>Frontend-focused Software Engineer</strong> with 5+ years of experience building
+        <strong>UI/UX-driven, scalable, and responsive web applications</strong>. I specialize in
+        <strong>React</strong>, <strong>TypeScript</strong>, <strong>Angular</strong>, and modern frontend architecture,
+        with a strong focus on <strong>design systems</strong>, <strong>component libraries</strong>, and
+        <strong>user-centered product experiences</strong>.`,
 
-        `My professional journey began as a <strong>Junior Frontend Developer</strong>, where I developed reusable
-        components and created data visualization applications using <strong>React, Redux, and AWS Lambda</strong>.
-        Later, as a <strong>Software Engineer</strong> at <strong>Specter Automation</strong>, I worked on designing,
-        developing, and testing digitalized B2B construction solutions, integrating <strong>ThreeJS</strong> for BIM
-        engine enhancements and automating testing with <strong>Playwright</strong>. Throughout my career, I have
-        focused on performance optimization, debugging, and CI/CD automation.`,
+        `I have hands-on experience translating <strong>wireframes, user flows, and Figma prototypes</strong>
+        into production-ready interfaces. My work focuses on building clean, accessible, and performant
+        frontend applications using <strong>React, TypeScript, Angular, TailwindCSS, SCSS, Storybook,
+        Playwright, Jest, Testing Library, and Cypress</strong>.`,
 
-        `Beyond my professional experience, I was the <strong>Technical Secretary</strong> of my college during
-        <strong>2017-2018</strong>. I managed all <strong>technical events</strong> during the annual technical festival,
-        ensuring efficient <strong>resource and time management</strong> with prioritized task execution. I also conducted
-        <strong>LAN (COD) gaming sessions</strong> for students each year, creating a competitive and engaging
-        environment that brought together technology enthusiasts.`,
+        `At <strong>Specter Automation</strong>, I developed complex B2B construction automation interfaces,
+        contributed to <strong>UI/UX-heavy workflows</strong>, built interactive <strong>Three.js</strong>
+        visualization features, and improved frontend quality through testing, debugging, and performance
+        optimization. Previously, at <strong>Coindex</strong>, I built <strong>React + TypeScript</strong>
+        interfaces for real-time cryptocurrency dashboards with reusable components and data visualizations.`,
 
-        `I am passionate about <strong>problem-solving</strong>, <strong>AI-driven solutions</strong>, and <strong>cloud technologies</strong>.
-        My ongoing learning journey includes earning an <strong>AWS Solutions Architect Associate Certification</strong>
-        to deepen my cloud expertise. I strive to innovate and build impactful software that enhances efficiency and
-        user experience in various domains.`
+        `I am passionate about creating software that combines <strong>strong engineering</strong> with
+        <strong>thoughtful UI/UX design</strong>. I enjoy working from discovery to delivery — understanding
+        user needs, designing intuitive workflows, and building accessible, responsive, and reliable
+        frontend systems.`
       ],
       resumeLink: '/assets/Priyanka_Giri_CV.pdf'
     };
   }
 
-
   getExperience() {
     return [
       {
+        company: 'Early-Stage Startup Product',
+        role: 'Full-Stack(UI-UX Focused) Developer',
+        duration: 'Nov 2025 – Feb 2026',
+        description: [
+          'Led frontend architecture for an LLM-powered analytics platform using Angular, TypeScript, and Angular Material.',
+          'Owned UI/UX design in Figma, creating user flows, interaction patterns, and analytical dashboard experiences.',
+          'Built modular UI services, reusable components, and data-driven dashboard interfaces with strong usability focus.',
+          'Integrated APIs and handled authentication, caching, error states, and real-time UI updates.',
+          'Collaborated closely with founders to define product scope, improve user experience, and deliver the MVP.'
+        ]
+      },
+      {
         company: 'Specter Automation',
         role: 'Software Engineer',
-        duration: 'May 2022 – Oct 2023',
+        duration: 'May 2022 – Oct 2024',
         description: [
-          'Designed, developed, and tested a digitalized B2B construction product using Angular 16, TailwindCSS, Docker, CI/CD, and AWS S3.',
-          'Built new features in the BIM Engine using ThreeJS.',
-          'Integrated automated testing framework using Playwright.',
-          'Conducted code reviews, debugging sessions, and optimized software performance.'
+          'Developed and maintained a large-scale Angular and TypeScript B2B web platform for construction automation.',
+          'Built UI/UX-focused workflows, responsive interfaces, and reusable frontend components.',
+          'Developed advanced 3D BIM visualization features using Three.js with a focus on usability and performance.',
+          'Implemented Playwright-based end-to-end testing to improve frontend reliability and product quality.',
+          'Worked closely with designers and product stakeholders to translate UX requirements into production-ready interfaces.'
         ]
       },
       {
         company: 'Coindex',
         role: 'Junior Frontend Developer',
-        duration: 'Dec 2019 - Aug 2021',
+        duration: 'Dec 2019 – Aug 2021',
         description: [
-          'Developed reusable components for a B2B cryptocurrency exchange platform using React, Redux, and AWS Lambda.',
-          'Created a data visualization single-page application using API, Redux, and ChartJS.',
-          'Built automated tests using Cypress for efficient QA testing.'
+          'Developed React and TypeScript interfaces for real-time cryptocurrency trading dashboards.',
+          'Built reusable UI components using Storybook-driven development.',
+          'Created data visualization features using D3.js, Chart.js, Redux, and API integrations.',
+          'Focused on responsive design, predictable UI state management, and cross-browser compatibility.',
+          'Supported frontend testing and QA workflows using Cypress.'
         ]
       },
       {
         company: 'iDeators Technologies',
         role: 'Angular Developer',
-        duration: 'Dec 2017 - Dec 2018',
+        duration: 'Dec 2017 – Dec 2018',
         description: [
-          'Developed B2C E-commerce website components using Angular6, TypeScript, Bootstrap, and Firebase.'
+          'Built Angular and TypeScript UI modules for a B2C e-commerce platform.',
+          'Implemented authentication flows and Firebase-based frontend features.',
+          'Worked with UI/UX designers to deliver responsive, mobile-first, and user-friendly interfaces.'
         ]
       }
     ];
@@ -77,31 +90,40 @@ export class DataService {
   getProjects() {
     return [
       {
-        title: 'Near-Shortest Path Routing in Hybrid Communication Networks Using Python',
-        institution: 'Paderborn University (Aug 2024 – Jan 2025)',
+        title: 'Smart Factory Digital Twin',
+        institution: 'Personal Project (May 2025 – Present)',
         description: [
-          'Developed a hybrid communication system using Unit Disk Graph (UDG) abstraction to grid-based networks in Python.',
-          'Designed binary tree-based portal structures with interval-based labeling using networkx and Matplotlib.',
-          'Integrated visualization of UDG-to-grid transformations for efficient routing.'
+          'Built a real-time React and TypeScript UI system with Three.js and WebSocket for interactive factory visualization.',
+          'Designed user-centric UI/UX workflows for monitoring, control, and status-based machine interactions.',
+          'Developed reusable frontend components and responsive layouts for a scalable control panel experience.',
+          'Focused on real-time state synchronization, usability, performance, and clear visual feedback.'
         ]
       },
       {
-        title: 'AICON: AI for Computer Networks',
+        title: 'Near-Shortest Path Routing in Hybrid Communication Networks',
+        institution: 'Paderborn University — Master’s Thesis (Feb 2025 – Jul 2025)',
+        description: [
+          'Designed and implemented routing algorithms in Python using NetworkX and Matplotlib.',
+          'Built visualizations for graph-based routing, grid abstractions, and hybrid communication network models.',
+          'Focused on scalable routing strategies and clear technical visualization of algorithm behavior.'
+        ]
+      },
+      {
+        title: 'AICON: Artificial Intelligence for Computer Networks',
         institution: 'Paderborn University (Apr 2020 – Mar 2021)',
         description: [
-          'Implemented AI-based packet routing algorithms in wireless networks using TensorFlow.',
-          'Analyzed reinforcement learning algorithms to optimize packet transfer efficiency.',
-          'Visualized packet movement using NetworkX.'
+          'Applied reinforcement learning techniques to wireless network optimization problems.',
+          'Analyzed AI-based routing strategies for improving packet transfer efficiency.',
+          'Created network visualizations using NetworkX.'
         ]
       },
       {
-        title: 'Car Damage Assessment for Insurance',
+        title: 'Car Damage Assessment System',
         institution: 'Mumbai University (Jun 2018 – May 2019)',
         description: [
-          'Developed a machine learning model for car damage classification using Python.',
-          'Implemented transfer learning and ensemble learning techniques.',
-          'Built the frontend using Angular.',
-          'Published research paper: "Damage Assessment for Car Insurance".'
+          'Built a machine-learning-based image classification system for car damage assessment.',
+          'Developed the frontend interface using Angular.',
+          'Co-authored a research paper on machine-learning-based damage assessment for insurance use cases.'
         ]
       }
     ];
@@ -109,20 +131,20 @@ export class DataService {
 
   getEducation() {
     return [
-      { school: 'Paderborn University', degree: 'Masters in Computer Science', year: '2019 - 2025' },
-      { school: 'Mumbai University', degree: 'Bachelors in Computer Engineering', year: '2015 - 2019' }
+      { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: '2019 – 2026' },
+      { school: 'Mumbai University', degree: 'Bachelor’s in Computer Engineering', year: '2015 – 2019' }
     ];
   }
 
   getCertifications() {
     return [
-      { name: 'AWS Solutions Architect Associate Certification', year: 'Jan. 2025 - Ongoing' }
+      { name: 'AWS Solutions Architect Associate Certification', year: 'Ongoing' }
     ];
   }
 
   getContact() {
     return {
-      email: 'priyankagiri.oyeindia@gmail.com',
+      email: 'priyanka.giri.0397@gmail.com',
       linkedin: 'https://linkedin.com/in/priyanka-giri-fullstack-developer/',
       github: 'https://github.com/Pikuz1',
       address: {
