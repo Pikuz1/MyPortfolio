@@ -8,29 +8,28 @@ export class DataService {
   getAboutMe() {
     return {
       name: 'Priyanka Giri',
-      role: 'Frontend / UI Engineer',
+      role: 'Fullstack / Frontend Engineer',
       description: [
-        `I am a <strong>Frontend-focused Software Engineer</strong> with 5+ years of experience building
-        <strong>UI/UX-driven, scalable, and responsive web applications</strong>. I specialize in
-        <strong>React</strong>, <strong>TypeScript</strong>, <strong>Angular</strong>, and modern frontend architecture,
-        with a strong focus on <strong>design systems</strong>, <strong>component libraries</strong>, and
-        <strong>user-centered product experiences</strong>.`,
-
-        `I have hands-on experience translating <strong>wireframes, user flows, and Figma prototypes</strong>
-        into production-ready interfaces. My work focuses on building clean, accessible, and performant
-        frontend applications using <strong>React, TypeScript, Angular, TailwindCSS, SCSS, Storybook,
-        Playwright, Jest, Testing Library, and Cypress</strong>.`,
-
-        `At <strong>Specter Automation</strong>, I developed complex B2B construction automation interfaces,
-        contributed to <strong>UI/UX-heavy workflows</strong>, built interactive <strong>Three.js</strong>
-        visualization features, and improved frontend quality through testing, debugging, and performance
-        optimization. Previously, at <strong>Coindex</strong>, I built <strong>React + TypeScript</strong>
-        interfaces for real-time cryptocurrency dashboards with reusable components and data visualizations.`,
-
-        `I am passionate about creating software that combines <strong>strong engineering</strong> with
-        <strong>thoughtful UI/UX design</strong>. I enjoy working from discovery to delivery — understanding
-        user needs, designing intuitive workflows, and building accessible, responsive, and reliable
-        frontend systems.`
+        `I am a <strong>Full-Stack Software Engineer</strong> with 5+ years of experience building
+        <strong>production-grade web platforms</strong> across <strong>fintech, analytics, and automation,</strong>
+         with a strong frontend focus and the depth to own systems end-to-end.`,
+        `I specialize in <strong>React</strong>, <strong>TypeScript</strong>, and <strong>Angular</strong>,
+        with solid experience in <strong>state management</strong>, modern CSS (<strong>TailwindCSS, SCSS</strong>),
+        <strong>RESTful API integration</strong>, <strong>WebSocket connections</strong>, and frontend testing
+        using <strong>Playwright, Jest, Testing Library, and Cypress</strong>. I work confidently across the
+        stack, from designing data models and backend services to shipping polished, accessible, and
+        performant interfaces.`,
+        `My most recent work has been building an <strong>LLM-powered OLAP analytics platform</strong> from
+        scratch, architecting frontend systems, designing <strong>interactive dashboards</strong>, and owning
+        the full product lifecycle from MVP scope to production. At <strong>Specter Automation</strong>, I built
+        complex B2B construction interfaces with <strong>Three.js</strong> 3D visualizations, introduced
+        end-to-end testing, and contributed to <strong>CI/CD pipelines</strong>. Previously, at
+        <strong>Coindex</strong>, I built <strong>React + TypeScript</strong> interfaces for real-time
+        cryptocurrency dashboards with reusable components and data visualizations.`,
+        `I am passionate about the intersection of <strong>strong engineering</strong> and
+        <strong>thoughtful UI/UX design, </strong>building interfaces that are reliable, accessible, and
+        genuinely useful. I work best in <strong>product-driven environments</strong> where I can go from
+        understanding the problem to shipping the solution.`
       ],
       resumeLink: '/assets/Priyanka_Giri_CV.pdf'
     };
