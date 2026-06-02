@@ -31,7 +31,7 @@ export class DataService {
         genuinely useful. I work best in <strong>product-driven environments</strong> where I can go from
         understanding the problem to shipping the solution.`
       ],
-      resumeLink: '/assets/Priyanka_Giri_CV.pdf'
+      resumeLink: '/assets/Priyanka_Giri_Frontend_Developer.pdf'
     };
   }
 
