@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Skill, SkillCategory } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkillsService {
-  getSkills(): any[] {
+  getSkills(): Skill[] {
     return [
       // Frontend Development
       { name: 'React', category: 'frontend', description: 'A JavaScript library for building user interfaces with component-based architecture and virtual DOM.' },
@@ -60,7 +61,7 @@ export class SkillsService {
     ];
   }
 
-  getSkillCategories(): any[] {
+  getSkillCategories(): SkillCategory[] {
     return [
       { id: 'all', name: 'All Skills' },
       { id: 'frontend', name: 'Frontend Development' },

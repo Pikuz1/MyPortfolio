@@ -15,17 +15,17 @@ h1 { font-size: 2.5rem; } /* Default for desktop */
 h2 { font-size: 2rem; }
 p { font-size: 1rem; }
 
+/* Tablet Adjustments */
+@media (max-width: 1024px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   h1 { font-size: 2rem; }
   h2 { font-size: 1.5rem; }
   p { font-size: 0.9rem; }
-}
-
-/* Tablet Adjustments */
-@media (max-width: 1024px) {
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.8rem; }
 }
 
 /* Image Responsiveness */
@@ -38,4 +38,28 @@ img {
 video {
   width: 100%;
   height: auto;
+}
+
+
+/* Shared frosted-glass panel used by the page sections */
+.glass-section {
+  width: 90%;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+  color: white;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); /* Safari support */
+
+  background: rgba(10, 25, 47, 0.2);
+  border: 1px solid rgba(100, 255, 218, 0.1);
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+
+
+  position: relative;
 }

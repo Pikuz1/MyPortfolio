@@ -6,8 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-about',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './about.component.html',
-  styleUrl: './about.component.css'
+  templateUrl: './about.component.html'
 })
 export class AboutComponent {
   about = this.dataService.getAboutMe();

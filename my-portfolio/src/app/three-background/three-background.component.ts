@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -9,7 +10,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
   standalone: true,
   templateUrl: './three-background.component.html',
 })
-export class ThreeBackgroundComponent implements AfterViewInit {
+export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas3d') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private scene!: THREE.Scene;
@@ -17,11 +18,33 @@ export class ThreeBackgroundComponent implements AfterViewInit {
   private renderer!: THREE.WebGLRenderer;
   private particleSystem!: THREE.Points;
   private composer!: EffectComposer;
+  private frameId: number | null = null;
+  private readonly onResizeHandler = () => this.onResize();
+  private readonly onMouseMoveHandler = (event: MouseEvent) => this.onMouseMove(event);
+
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
 
   ngAfterViewInit(): void {
+    // WebGL only exists in the browser, not during server-side rendering
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.initScene();
     this.animate();
     this.addMouseParallax();
+  }
+
+  ngOnDestroy(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (this.frameId !== null) {
+      cancelAnimationFrame(this.frameId);
+    }
+    window.removeEventListener('resize', this.onResizeHandler);
+    window.removeEventListener('mousemove', this.onMouseMoveHandler);
+    this.composer?.dispose();
+    this.renderer?.dispose();
   }
 
   initScene() {
@@ -80,11 +103,11 @@ export class ThreeBackgroundComponent implements AfterViewInit {
     this.composer.addPass(bloomPass);
 
     // Resize event listener
-    window.addEventListener('resize', () => this.onResize());
+    window.addEventListener('resize', this.onResizeHandler);
   }
 
   animate = () => {
-    requestAnimationFrame(this.animate);
+    this.frameId = requestAnimationFrame(this.animate);
 
     this.particleSystem.rotation.y += 0.0005;
     this.particleSystem.rotation.x += 0.0002;
@@ -104,13 +127,15 @@ export class ThreeBackgroundComponent implements AfterViewInit {
   }
 
   addMouseParallax() {
-    window.addEventListener('mousemove', (event) => {
-      const x = (event.clientX / window.innerWidth) - 0.5;
-      const y = (event.clientY / window.innerHeight) - 0.5;
+    window.addEventListener('mousemove', this.onMouseMoveHandler);
+  }
 
-      this.camera.position.x = x * 2;
-      this.camera.position.y = -y * 2;
-      this.camera.lookAt(0, 0, 0);
-    });
+  onMouseMove(event: MouseEvent) {
+    const x = (event.clientX / window.innerWidth) - 0.5;
+    const y = (event.clientY / window.innerHeight) - 0.5;
+
+    this.camera.position.x = x * 2;
+    this.camera.position.y = -y * 2;
+    this.camera.lookAt(0, 0, 0);
   }
 }

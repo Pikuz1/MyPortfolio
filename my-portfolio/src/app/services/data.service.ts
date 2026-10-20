@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import { AboutMe, Certification, Contact, Education, Experience, Project } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  getAboutMe() {
+  getAboutMe(): AboutMe {
     return {
       name: 'Priyanka Giri',
       role: 'Fullstack / Frontend Engineer',
@@ -35,7 +36,7 @@ export class DataService {
     };
   }
 
-  getExperience() {
+  getExperience(): Experience[] {
     return [
       {
         company: 'Early-Stage Startup Product',
@@ -86,7 +87,7 @@ export class DataService {
     ];
   }
 
-  getProjects() {
+  getProjects(): Project[] {
     return [
       {
         title: 'Smart Factory Digital Twin',
@@ -128,27 +129,26 @@ export class DataService {
     ];
   }
 
-  getEducation() {
+  getEducation(): Education[] {
     return [
       { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: 'Oct. 2019 – Jan. 2026' },
       { school: 'Mumbai University', degree: 'Bachelor’s in Computer Engineering', year: 'Jun. 2015 – May 2019' }
     ];
   }
 
-  getCertifications() {
+  getCertifications(): Certification[] {
     return [
       { name: 'AWS Solutions Architect Associate Certification', year: 'Ongoing' }
     ];
   }
 
-  getContact() {
+  getContact(): Contact {
     return {
       email: 'priyanka.giri.0397@gmail.com',
       linkedin: 'https://linkedin.com/in/priyanka-giri-fullstack-developer/',
       github: 'https://github.com/Pikuz1',
       address: {
-        location: 'Kempten, Germany',
-        googleMapsUrl: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42933.22469351866!2d10.264157779998873!3d47.736318603278555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c7907da67c911%3A0xbca5bb95c833b02b!2sKempten!5e0!3m2!1sen!2sde!4v1738253394505!5m2!1sen!2sde" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+        location: 'Kempten, Germany'
       }
     };
   }

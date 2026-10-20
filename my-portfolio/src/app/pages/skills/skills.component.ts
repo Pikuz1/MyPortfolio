@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SkillsService } from '../../services/skills.service';
+import { Skill, SkillCategory } from '../../models';
 
 @Component({
   selector: 'app-skills',
@@ -11,7 +12,7 @@ import { SkillsService } from '../../services/skills.service';
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.css']
 })
-export class SkillsComponent implements AfterViewInit, OnDestroy {
+export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('canvasContainer', { static: true }) canvasContainer!: ElementRef<HTMLDivElement>;
 
   private scene!: THREE.Scene;
@@ -20,18 +21,28 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
   private controls!: OrbitControls;
   private raycaster = new THREE.Raycaster();
   private mouse = new THREE.Vector2();
-  private skillSprites: { sprite: THREE.Sprite, skill: any }[] = [];
-  private hoveredSkill: any = null;
+  private skillSprites: { sprite: THREE.Sprite, skill: Skill }[] = [];
+  private hoveredSkill: Skill | null = null;
   private frameId: number | null = null;
 
-  skillCategories: any[] = [];
+  skillCategories: SkillCategory[] = [];
   selectedCategory: string = 'all';
-  selectedSkill: any = null;
+  selectedSkill: Skill | null = null;
 
-  constructor(private skillsService: SkillsService) {}
+  constructor(
+    private skillsService: SkillsService,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
+
+  ngOnInit(): void {
+    this.skillCategories = this.skillsService.getSkillCategories();
+  }
 
   ngAfterViewInit(): void {
-    this.skillCategories = this.skillsService.getSkillCategories();
+    // WebGL only exists in the browser, not during server-side rendering
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.initThree();
     this.animate();
   }
@@ -47,6 +58,9 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('window:resize')
   onWindowResize(): void {
+    if (!this.renderer) {
+      return;
+    }
     const width = this.canvasContainer.nativeElement.clientWidth;
     const height = this.canvasContainer.nativeElement.clientHeight;
 
@@ -57,6 +71,9 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
+    if (!this.renderer) {
+      return;
+    }
     const rect = this.renderer.domElement.getBoundingClientRect();
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -81,7 +98,7 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
         // Highlight new hover
         (intersected.material as THREE.SpriteMaterial).color.set(0x00ff00);
         intersected.scale.set(6, 6, 1);
-        this.hoveredSkill = skillData;
+        this.hoveredSkill = skillData ?? null;
       }
     } else if (this.hoveredSkill) {
       const prevSprite = this.skillSprites.find(s => s.skill === this.hoveredSkill)?.sprite;
@@ -104,7 +121,7 @@ export class SkillsComponent implements AfterViewInit, OnDestroy {
     if (intersects.length > 0) {
       const intersected = intersects[0].object as THREE.Sprite;
       const skillData = this.skillSprites.find(s => s.sprite === intersected)?.skill;
-      this.selectedSkill = skillData;
+      this.selectedSkill = skillData ?? null;
     } else {
       this.selectedSkill = null;
     }
