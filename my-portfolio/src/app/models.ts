@@ -56,3 +56,6 @@ export interface SkillCategory {
   id: SkillCategoryId | 'all';
   name: string;
 }
+
+/** Two skill names that are used together. */
+export type SkillLink = [string, string];

@@ -71,6 +71,14 @@
         class="category-btn">
         {{ category.name }}
       </button>
+      <button
+        type="button"
+        (click)="toggleConnections()"
+        [class.active]="showConnections"
+        [attr.aria-pressed]="showConnections"
+        class="category-btn">
+        {{ showConnections ? 'Hide connections' : 'Show connections' }}
+      </button>
     </div>
 
     <div class="skill-details" *ngIf="selectedSkill">
@@ -81,7 +89,7 @@
   </div>
 
   <div class="instructions">
-    <p>Drag to rotate the sphere • Scroll to zoom • Click on a skill for details</p>
+    <p>Drag to rotate the sphere, scroll to zoom, click a skill for details, or show connections to see which skills work together</p>
   </div>
 </div>
 

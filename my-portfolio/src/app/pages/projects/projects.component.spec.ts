@@ -27,4 +27,8 @@ describe('ProjectsComponent', () => {
     expect(links.length).toBe(component.projects.filter(p => p.link).length);
     expect(links[0].getAttribute('href')).toBe('https://github.com/Pikuz1/Documind');
   });
+
+  it('tilts every card', () => {
+    expect(el.querySelectorAll('[appTilt]').length).toBe(component.projects.length);
+  });
 });

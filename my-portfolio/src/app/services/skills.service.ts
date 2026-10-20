@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Skill, SkillCategory } from '../models';
+import { Skill, SkillCategory, SkillLink } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +88,41 @@ export class SkillsService {
       { id: 'devops', name: 'Cloud & DevOps' },
       { id: 'collab', name: 'Collaboration Tools' },
       { id: 'languages', name: 'Programming Languages' }
+    ];
+  }
+
+  getSkillLinks(): SkillLink[] {
+    return [
+      ['RAG', 'Embeddings'],
+      ['RAG', 'ChromaDB'],
+      ['RAG', 'LangChain'],
+      ['RAG', 'Gemini API'],
+      ['RAG', 'Prompt Engineering'],
+      ['RAG', 'Retrieval Evaluation'],
+      ['LangChain', 'Python'],
+      ['FastAPI', 'Python'],
+      ['Flask', 'Python'],
+      ['pytest', 'Python'],
+      ['Reinforcement Learning', 'Python'],
+      ['REST API Integration', 'FastAPI'],
+      ['React', 'TypeScript'],
+      ['React', 'Redux'],
+      ['React', 'Next.js'],
+      ['React', 'Storybook'],
+      ['React', 'Chart.js'],
+      ['Angular', 'TypeScript'],
+      ['Angular', 'RxJS / NgRx'],
+      ['TypeScript', 'JavaScript'],
+      ['Node.js', 'JavaScript'],
+      ['Three.js', 'WebGL'],
+      ['Tailwind', 'CSS3'],
+      ['SCSS', 'CSS3'],
+      ['Playwright', 'E2E Testing'],
+      ['Cypress', 'E2E Testing'],
+      ['Jest', 'Unit Testing'],
+      ['Vitest', 'Unit Testing'],
+      ['GitHub Actions', 'CI/CD Pipelines'],
+      ['Docker', 'CI/CD Pipelines']
     ];
   }
 }

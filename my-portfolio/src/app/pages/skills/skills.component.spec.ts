@@ -33,6 +33,7 @@ describe('SkillsComponent', () => {
       fixture = await create('browser');
       component = fixture.componentInstance;
       fixture.detectChanges();
+      await component.ready;
     });
 
     afterEach(() => fixture.destroy());
@@ -40,7 +41,8 @@ describe('SkillsComponent', () => {
     it('creates one sprite per skill and the category buttons', () => {
       expect(component.skillSprites.length).toBe(component['skillsService'].getSkills().length);
       const buttons = fixture.nativeElement.querySelectorAll('.category-btn');
-      expect(buttons.length).toBe(component.skillCategories.length);
+      // one button per category plus the connections toggle
+      expect(buttons.length).toBe(component.skillCategories.length + 1);
     });
 
     it('filters the sprites by category', () => {
@@ -107,6 +109,53 @@ describe('SkillsComponent', () => {
       expect(component.selectedSkill).toBe(skill);
     });
 
+    describe('connections', () => {
+      const lines = () => component.connections as any;
+      const visibleLinks = () => {
+        const visible = new Set(component.skillSprites.filter((s: any) => s.sprite.visible).map((s: any) => s.skill.name));
+        return component.skillsService.getSkillLinks().filter(([a, b]: string[]) => visible.has(a) && visible.has(b));
+      };
+
+      it('are hidden until switched on', () => {
+        expect(lines()).toBeNull();
+      });
+
+      it('draw a line for every pair of related skills', () => {
+        component.toggleConnections();
+        expect(component.showConnections).toBeTrue();
+        expect(lines().geometry.getAttribute('position').count).toBe(visibleLinks().length * 2);
+        expect(component.scene.children).toContain(lines());
+      });
+
+      it('only connect skills of the selected category', () => {
+        component.toggleConnections();
+        const all = lines().geometry.getAttribute('position').count;
+        component.selectCategory('ai');
+        expect(lines().geometry.getAttribute('position').count).toBe(visibleLinks().length * 2);
+        expect(lines().geometry.getAttribute('position').count).toBeLessThan(all);
+      });
+
+      it('are removed when switched off again', () => {
+        component.toggleConnections();
+        const previous = lines();
+        spyOn(previous.geometry, 'dispose');
+        component.toggleConnections();
+        expect(lines()).toBeNull();
+        expect(component.scene.children).not.toContain(previous);
+        expect(previous.geometry.dispose).toHaveBeenCalled();
+      });
+
+      it('are switched by the button', () => {
+        const buttons = fixture.nativeElement.querySelectorAll('.category-btn') as NodeListOf<HTMLButtonElement>;
+        const button = buttons[buttons.length - 1];
+        expect(button.textContent).toContain('Show connections');
+        button.click();
+        fixture.detectChanges();
+        expect(button.textContent).toContain('Hide connections');
+        expect(button.getAttribute('aria-pressed')).toBe('true');
+      });
+    });
+
     it('selects a category from its button', () => {
       const buttons = fixture.nativeElement.querySelectorAll('.category-btn') as NodeListOf<HTMLButtonElement>;
       buttons[1].click();
@@ -154,6 +203,8 @@ describe('SkillsComponent', () => {
       expect(component.skillCategories.length).toBeGreaterThan(0);
       expect(component.renderer).toBeUndefined();
       expect(() => {
+        component.toggleConnections();
+        component.selectCategory('ai');
         component.onWindowResize();
         component.onMouseMove(new MouseEvent('mousemove'));
         fixture.destroy();
@@ -161,8 +212,12 @@ describe('SkillsComponent', () => {
     });
   });
 
-  it('can be destroyed before the animation starts', async () => {
+  it('does not start the scene when destroyed while the icon font loads', async () => {
     const fixture = await create('browser');
-    expect(() => fixture.destroy()).not.toThrow();
+    const component: any = fixture.componentInstance;
+    fixture.detectChanges();
+    fixture.destroy();
+    await component.ready;
+    expect(component.renderer).toBeUndefined();
   });
 });

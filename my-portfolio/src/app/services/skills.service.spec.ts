@@ -37,4 +37,16 @@ describe('SkillsService', () => {
       .filter(c => c.id !== 'all')
       .forEach(c => expect(skills.some(s => s.category === c.id)).toBeTrue());
   });
+
+  it('only links skills that exist, without duplicates', () => {
+    const names = new Set(service.getSkills().map(s => s.name));
+    const links = service.getSkillLinks();
+    links.forEach(([a, b]) => {
+      expect(names.has(a)).withContext(a).toBeTrue();
+      expect(names.has(b)).withContext(b).toBeTrue();
+      expect(a).not.toBe(b);
+    });
+    const keys = links.map(link => [...link].sort().join('|'));
+    expect(new Set(keys).size).toBe(keys.length);
+  });
 });

@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SkillsService } from '../../services/skills.service';
 import { Skill, SkillCategory } from '../../models';
+import { createSkillTexture, ICON_FONT } from '../../three/skill-label';
 
 @Component({
   selector: 'app-skills',
@@ -24,10 +25,16 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   private skillSprites: { sprite: THREE.Sprite, skill: Skill }[] = [];
   private hoveredSkill: Skill | null = null;
   private frameId: number | null = null;
+  private connections: THREE.LineSegments | null = null;
+  private destroyed = false;
+
+  /** Resolves once the icon font is loaded and the sphere is on screen. */
+  ready: Promise<void> = Promise.resolve();
 
   skillCategories: SkillCategory[] = [];
   selectedCategory: string = 'all';
   selectedSkill: Skill | null = null;
+  showConnections = false;
 
   constructor(
     private skillsService: SkillsService,
@@ -43,11 +50,20 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    // The icons are drawn from Font Awesome, so wait until the font is ready
+    this.ready = document.fonts.load(ICON_FONT).then(() => this.start());
+  }
+
+  private start(): void {
+    if (this.destroyed) {
+      return;
+    }
     this.initThree();
     this.animate();
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
     if (this.frameId !== null) {
       cancelAnimationFrame(this.frameId);
     }
@@ -118,6 +134,44 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectCategory(category: string): void {
     this.selectedCategory = category;
     this.updateSkillVisibility();
+    this.updateConnections();
+  }
+
+  toggleConnections(): void {
+    this.showConnections = !this.showConnections;
+    this.updateConnections();
+  }
+
+  /** Draws a line between related skills that are both visible. */
+  private updateConnections(): void {
+    if (!this.scene) {
+      return;
+    }
+    if (this.connections) {
+      this.scene.remove(this.connections);
+      this.connections.geometry.dispose();
+      (this.connections.material as THREE.Material).dispose();
+      this.connections = null;
+    }
+    if (!this.showConnections) {
+      return;
+    }
+
+    const sprites = new Map(this.skillSprites.map(({ sprite, skill }) => [skill.name, sprite]));
+    const points: THREE.Vector3[] = [];
+    for (const [from, to] of this.skillsService.getSkillLinks()) {
+      const start = sprites.get(from)!;
+      const end = sprites.get(to)!;
+      if (start.visible && end.visible) {
+        points.push(start.position, end.position);
+      }
+    }
+
+    this.connections = new THREE.LineSegments(
+      new THREE.BufferGeometry().setFromPoints(points),
+      new THREE.LineBasicMaterial({ color: 0x64ffda, transparent: true, opacity: 0.35 })
+    );
+    this.scene.add(this.connections);
   }
 
   private updateSkillVisibility(): void {
@@ -167,27 +221,8 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
       const y = radius * Math.sin(theta) * Math.sin(phi);
       const z = radius * Math.cos(phi);
 
-      // Create canvas for text
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d')!;
-      const size = 300;
-      canvas.width = size;
-      canvas.height = size;
-
-      // Draw skill text
-      context.fillStyle = 'rgba(0, 0, 0, 0)';
-      context.fillRect(0, 0, size, size);
-
-      context.font = 'bold 35px Arial';
-      context.textAlign = 'center';
-      context.textBaseline = 'middle';
-      context.fillStyle = '#ffffff';
-      context.fillText(skill.name, size / 2, size / 2);
-
-      // Create texture and material
-      const texture = new THREE.CanvasTexture(canvas);
       const material = new THREE.SpriteMaterial({
-        map: texture,
+        map: createSkillTexture(skill),
         color: 0xffffff,
         transparent: true
       });

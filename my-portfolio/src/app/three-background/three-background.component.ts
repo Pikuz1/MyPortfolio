@@ -4,6 +4,9 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { BackgroundService } from '../services/background.service';
+import { prefersReducedMotion } from '../three/motion';
+import { sampleTextPoints } from '../three/text-points';
 
 @Component({
   selector: 'app-three-background',
@@ -19,10 +22,16 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   private particleSystem!: THREE.Points;
   private composer!: EffectComposer;
   private frameId: number | null = null;
+  private driftPositions!: Float32Array;
+  private initialsPositions!: Float32Array;
+  private reducedMotion = false;
   private readonly onResizeHandler = () => this.onResize();
   private readonly onMouseMoveHandler = (event: MouseEvent) => this.onMouseMove(event);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private background: BackgroundService
+  ) {}
 
   ngAfterViewInit(): void {
     // WebGL only exists in the browser, not during server-side rendering
@@ -73,6 +82,9 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    this.driftPositions = positions.slice();
+    this.initialsPositions = sampleTextPoints('PG', particles);
+    this.reducedMotion = prefersReducedMotion();
 
     const material = new THREE.PointsMaterial({
       size: 0.1,
@@ -109,12 +121,37 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   animate = () => {
     this.frameId = requestAnimationFrame(this.animate);
 
-    this.particleSystem.rotation.y += 0.0005;
-    this.particleSystem.rotation.x += 0.0002;
+    const toInitials = this.background.formation() === 'initials';
+    this.morphParticles(toInitials ? this.initialsPositions : this.driftPositions);
+    this.spinParticles(toInitials);
 
     // Render with composer (Bloom effect)
     this.composer.render();
   };
+
+  /** Moves every particle a step towards its place in the current formation. */
+  private morphParticles(target: Float32Array) {
+    const ease = this.reducedMotion ? 1 : 0.06;
+    const attribute = this.particleSystem.geometry.getAttribute('position') as THREE.BufferAttribute;
+    const positions = attribute.array as Float32Array;
+    for (let i = 0; i < positions.length; i++) {
+      positions[i] += (target[i] - positions[i]) * ease;
+    }
+    attribute.needsUpdate = true;
+  }
+
+  /** Slowly rotates the cloud, or turns it to face the camera while it forms the initials. */
+  private spinParticles(facingCamera: boolean) {
+    const rotation = this.particleSystem.rotation;
+    if (facingCamera) {
+      const ease = this.reducedMotion ? 1 : 0.06;
+      rotation.x -= rotation.x * ease;
+      rotation.y -= rotation.y * ease;
+    } else if (!this.reducedMotion) {
+      rotation.y += 0.0005;
+      rotation.x += 0.0002;
+    }
+  }
 
   onResize() {
     const width = window.innerWidth;
@@ -127,6 +164,9 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   }
 
   addMouseParallax() {
+    if (this.reducedMotion) {
+      return;
+    }
     window.addEventListener('mousemove', this.onMouseMoveHandler);
   }
 

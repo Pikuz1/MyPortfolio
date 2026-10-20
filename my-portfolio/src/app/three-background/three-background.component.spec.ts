@@ -1,5 +1,6 @@
 import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BackgroundService } from '../services/background.service';
 import { ThreeBackgroundComponent } from './three-background.component';
 
 describe('ThreeBackgroundComponent', () => {
@@ -67,6 +68,76 @@ describe('ThreeBackgroundComponent', () => {
       expect(removeListener).toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       expect(disposeRenderer).toHaveBeenCalled();
       expect(disposeComposer).toHaveBeenCalled();
+    });
+  });
+
+  describe('formations', () => {
+    let fixture: ComponentFixture<ThreeBackgroundComponent>;
+    let component: any;
+    let background: BackgroundService;
+
+    const frames = (count: number) => {
+      // Skip the expensive bloom render, only the particle movement matters here
+      if (!jasmine.isSpy(window.requestAnimationFrame)) {
+        spyOn(window, 'requestAnimationFrame').and.returnValue(1);
+        spyOn(component.composer, 'render');
+      }
+      for (let i = 0; i < count; i++) {
+        component.animate();
+      }
+    };
+    const positions = () => component.particleSystem.geometry.getAttribute('position').array as Float32Array;
+    const closeTo = (actual: Float32Array, expected: Float32Array) =>
+      actual.every((value, i) => Math.abs(value - expected[i]) < 0.001);
+
+    beforeEach(async () => {
+      fixture = await create('browser');
+      component = fixture.componentInstance;
+      background = TestBed.inject(BackgroundService);
+      fixture.detectChanges();
+    });
+
+    afterEach(() => fixture.destroy());
+
+    it('moves the particles into the initials and turns them to face the camera', () => {
+      component.particleSystem.rotation.set(1, 1, 0);
+      background.show('initials');
+      frames(300);
+      expect(closeTo(positions(), component.initialsPositions)).toBeTrue();
+      expect(component.particleSystem.rotation.x).toBeCloseTo(0);
+      expect(component.particleSystem.rotation.y).toBeCloseTo(0);
+    });
+
+    it('lets the particles drift apart again', () => {
+      background.show('initials');
+      frames(300);
+      background.show('drift');
+      frames(1);
+      expect(closeTo(positions(), component.driftPositions)).toBeFalse();
+      frames(300);
+      expect(closeTo(positions(), component.driftPositions)).toBeTrue();
+    });
+  });
+
+  describe('with reduced motion', () => {
+    it('snaps to the formation, does not spin and ignores the mouse', async () => {
+      spyOn(window, 'matchMedia').and.returnValue({ matches: true } as MediaQueryList);
+      const addListener = spyOn(window, 'addEventListener').and.callThrough();
+      const fixture = await create('browser');
+      const component: any = fixture.componentInstance;
+      fixture.detectChanges();
+      spyOn(window, 'requestAnimationFrame').and.returnValue(1);
+      spyOn(component.composer, 'render');
+
+      component.animate();
+      expect(component.particleSystem.rotation.y).toBe(0);
+      expect(addListener.calls.allArgs().some(args => args[0] === 'mousemove')).toBeFalse();
+
+      TestBed.inject(BackgroundService).show('initials');
+      component.animate();
+      expect(component.particleSystem.geometry.getAttribute('position').array)
+        .toEqual(component.initialsPositions);
+      fixture.destroy();
     });
   });
 
