@@ -3,11 +3,13 @@ export interface AboutMe {
   role: string;
   description: string[];
   resumeLink: string;
+  howIWork: { title: string; text: string }[];
 }
 
 export interface Experience {
   company: string;
   role: string;
+  location?: string;
   duration: string;
   description: string[];
 }
@@ -16,6 +18,7 @@ export interface Project {
   title: string;
   institution: string;
   description: string[];
+  link?: string;
 }
 
 export interface Education {
@@ -29,6 +32,11 @@ export interface Certification {
   year: string;
 }
 
+export interface Language {
+  name: string;
+  level: string;
+}
+
 export interface Contact {
   email: string;
   linkedin: string;
@@ -36,7 +44,7 @@ export interface Contact {
   address: { location: string };
 }
 
-export type SkillCategoryId = 'frontend' | 'uiux' | 'testing' | 'backend' | 'devops' | 'collab' | 'languages';
+export type SkillCategoryId = 'ai' | 'frontend' | 'uiux' | 'testing' | 'backend' | 'devops' | 'collab' | 'languages';
 
 export interface Skill {
   name: string;

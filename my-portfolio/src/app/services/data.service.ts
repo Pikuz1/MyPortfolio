@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AboutMe, Certification, Contact, Education, Experience, Project } from '../models';
+import { AboutMe, Certification, Contact, Education, Experience, Language, Project } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +9,44 @@ export class DataService {
   getAboutMe(): AboutMe {
     return {
       name: 'Priyanka Giri',
-      role: 'Fullstack / Frontend Engineer',
+      role: 'AI Engineer | Full-Stack Software Engineer',
       description: [
-        `I am a <strong>Full-Stack Software Engineer</strong> with 5+ years of experience building
-        <strong>production-grade web platforms</strong> across <strong>fintech, analytics, and automation,</strong>
-         with a strong frontend focus and the depth to own systems end-to-end.`,
-        `I specialize in <strong>React</strong>, <strong>TypeScript</strong>, and <strong>Angular</strong>,
-        with solid experience in <strong>state management</strong>, modern CSS (<strong>TailwindCSS, SCSS</strong>),
-        <strong>RESTful API integration</strong>, <strong>WebSocket connections</strong>, and frontend testing
-        using <strong>Playwright, Jest, Testing Library, and Cypress</strong>. I work confidently across the
-        stack, from designing data models and backend services to shipping polished, accessible, and
-        performant interfaces.`,
-        `My most recent work has been building an <strong>LLM-powered OLAP analytics platform</strong> from
-        scratch, architecting frontend systems, designing <strong>interactive dashboards</strong>, and owning
-        the full product lifecycle from MVP scope to production. At <strong>Specter Automation</strong>, I built
-        complex B2B construction interfaces with <strong>Three.js</strong> 3D visualizations, introduced
-        end-to-end testing, and contributed to <strong>CI/CD pipelines</strong>. Previously, at
-        <strong>Coindex</strong>, I built <strong>React + TypeScript</strong> interfaces for real-time
-        cryptocurrency dashboards with reusable components and data visualizations.`,
-        `I am passionate about the intersection of <strong>strong engineering</strong> and
-        <strong>thoughtful UI/UX design, </strong>building interfaces that are reliable, accessible, and
-        genuinely useful. I work best in <strong>product-driven environments</strong> where I can go from
-        understanding the problem to shipping the solution.`
+        `I am a <strong>Software Engineer</strong> with 5+ years of experience building
+        <strong>production-grade web platforms</strong> across <strong>fintech, analytics, and automation</strong>,
+        now focused on <strong>AI engineering</strong>.`,
+        `I build <strong>LLM applications</strong> end to end: <strong>retrieval-augmented generation (RAG)</strong>,
+        <strong>embeddings and vector search</strong>, and conversational chatbot interfaces, with
+        <strong>Python and FastAPI</strong> backends and <strong>React and TypeScript</strong> frontends. I am also
+        comfortable with <strong>Angular</strong>, <strong>REST API integration</strong>,
+        <strong>data visualization</strong>, testing, and <strong>CI/CD</strong>.`,
+        `Most recently I built an <strong>LLM-powered OLAP analytics platform</strong> from scratch at an early-stage
+        startup, where I plugged a natural-language-to-SQL service into a chatbot that answers with interactive
+        <strong>Chart.js</strong> charts. At <strong>Specter Automation</strong> I built a large Angular B2B platform
+        with <strong>Three.js</strong> 3D visualizations, and at <strong>Coindex</strong> I built real-time
+        cryptocurrency dashboards in React.`,
+        `My Master's in Computer Science at <strong>Paderborn University</strong>, including a thesis on routing
+        algorithms and work on <strong>reinforcement learning</strong>, gave me a solid base in algorithms and
+        machine learning.`
       ],
-      resumeLink: '/assets/Priyanka_Giri_Frontend_Developer.pdf'
+      resumeLink: '/assets/Priyanka_Giri_AI_Engineer.pdf',
+      howIWork: [
+        {
+          title: 'AI features I can measure',
+          text: 'When I built DocuMind, I evaluated retrieval with a golden question set and tuned chunking until it reached 100% hit@4, instead of judging answers by feel.'
+        },
+        {
+          title: 'Tested and ready for production',
+          text: 'I care about tests, CI and deployment from the start: automated tests, Playwright end-to-end checks, Docker and GitHub Actions on Linux, Windows and macOS.'
+        },
+        {
+          title: 'Full-stack discipline',
+          text: 'I move between the data model, the API and the interface, so an idea can go from the first conversation with the team to something users can try.'
+        },
+        {
+          title: 'Close to the product',
+          text: 'I like working directly with founders and designers on scope and system design, and I keep learning in teams that value quality.'
+        }
+      ]
     };
   }
 
@@ -40,44 +54,44 @@ export class DataService {
     return [
       {
         company: 'Early-Stage Startup Product',
-        role: 'Full-Stack(UI-UX Focused) Developer',
-        duration: 'Nov 2025 – Feb 2026',
+        role: 'Fullstack Engineer, LLM-Powered OLAP Analytics Platform',
+        location: 'Hamburg, Germany',
+        duration: 'Oct 2025 - Jun 2026',
         description: [
-          'Led frontend architecture for an LLM-powered analytics platform using Angular, TypeScript, and Angular Material.',
-          'Owned UI/UX design in Figma, creating user flows, interaction patterns, and analytical dashboard experiences.',
-          'Built modular UI services, reusable components, and data-driven dashboard interfaces with strong usability focus.',
-          'Integrated APIs and handled authentication, caching, error states, and real-time UI updates.',
-          'Collaborated closely with founders to define product scope, improve user experience, and deliver the MVP.'
+          'Architected and built a full-stack LLM-powered analytics platform from scratch, owning frontend systems end to end.',
+          "Integrated the backend's natural-language-to-SQL service into the conversational chatbot UI via REST APIs, using response flags to render answers as interactive Chart.js charts.",
+          'Designed and implemented interactive dashboards with complex data visualizations for OLAP workloads.',
+          'Developed frontend architecture, services, and data models with a focus on scalability, consistency, and reliability.',
+          'Collaborated with founders on system design, MVP scope, and technical strategy.'
         ]
       },
       {
         company: 'Specter Automation',
-        role: 'Software Engineer',
-        duration: 'May 2022 – Oct 2024',
+        role: 'Software Engineer, Construction Automation Platform (B2B)',
+        location: 'Cologne, Germany',
+        duration: 'May 2022 - Oct 2024',
         description: [
-          'Developed and maintained a large-scale Angular and TypeScript B2B web platform for construction automation.',
-          'Built UI/UX-focused workflows, responsive interfaces, and reusable frontend components.',
-          'Developed advanced 3D BIM visualization features using Three.js with a focus on usability and performance.',
-          'Implemented Playwright-based end-to-end testing to improve frontend reliability and product quality.',
-          'Worked closely with designers and product stakeholders to translate UX requirements into production-ready interfaces.'
+          'Developed and maintained a large-scale Angular and TypeScript B2B platform with complex UI/UX workflows.',
+          'Built 3D visualization systems using Three.js, delivering interactive spatial interfaces for construction use cases.',
+          'Introduced end-to-end testing with Playwright and Cypress and contributed to CI/CD pipelines via GitHub Actions.',
+          'Improved frontend quality through systematic debugging, performance optimization, and code reviews.'
         ]
       },
       {
         company: 'Coindex',
-        role: 'Junior Frontend Developer',
-        duration: 'Dec 2019 – Aug 2021',
+        role: 'Junior Frontend Developer, Cryptocurrency Platform',
+        location: 'Bielefeld, Germany',
+        duration: 'Dec 2019 - Aug 2021',
         description: [
-          'Developed React and TypeScript interfaces for real-time cryptocurrency trading dashboards.',
-          'Built reusable UI components using Storybook-driven development.',
-          'Created data visualization features using D3.js, Chart.js, Redux, and API integrations.',
-          'Focused on responsive design, predictable UI state management, and cross-browser compatibility.',
-          'Supported frontend testing and QA workflows using Cypress.'
+          'Built React and TypeScript dashboards for real-time cryptocurrency data with REST API and WebSocket integrations.',
+          'Developed reusable component libraries and data visualization features for live market analytics.',
+          'Contributed to testing automation and AWS deployments (S3, Lambda).'
         ]
       },
       {
         company: 'iDeators Technologies',
         role: 'Angular Developer',
-        duration: 'Dec 2017 – Dec 2018',
+        duration: 'Dec 2017 - Dec 2018',
         description: [
           'Built Angular and TypeScript UI modules for a B2C e-commerce platform.',
           'Implemented authentication flows and Firebase-based frontend features.',
@@ -90,8 +104,18 @@ export class DataService {
   getProjects(): Project[] {
     return [
       {
+        title: 'DocuMind: Multilingual RAG Assistant for Contracts',
+        institution: 'Personal Project (Oct 2026)',
+        link: 'https://github.com/Pikuz1/Documind',
+        description: [
+          'Built a full-stack RAG application: upload a German or English contract PDF, ask questions, and get answers citing the source page (Python, FastAPI, LangChain, ChromaDB, Gemini, React, TypeScript).',
+          'Built the ingestion pipeline with page-aware chunking and local multilingual embeddings; evaluated retrieval with a golden question set and tuned chunking to reach 100% hit@4.',
+          'Privacy-first and production-ready: uploads deleted after indexing, 190+ tests with 100% coverage, Playwright E2E, Docker, and GitHub Actions CI on Linux, Windows, and macOS.'
+        ]
+      },
+      {
         title: 'Smart Factory Digital Twin',
-        institution: 'Personal Project (May 2025 – Present)',
+        institution: 'Personal Project (May 2025 - Present)',
         description: [
           'Built a real-time React and TypeScript UI system with Three.js and WebSocket for interactive factory visualization.',
           'Designed user-centric UI/UX workflows for monitoring, control, and status-based machine interactions.',
@@ -101,29 +125,28 @@ export class DataService {
       },
       {
         title: 'Near-Shortest Path Routing in Hybrid Communication Networks',
-        institution: 'Paderborn University — Master’s Thesis (Feb 2025 – Jul 2025)',
+        institution: 'Paderborn University, Master’s Thesis (Feb 2025 - Jul 2025)',
         description: [
           'Designed and implemented routing algorithms in Python using NetworkX and Matplotlib.',
-          'Built visualizations for graph-based routing, grid abstractions, and hybrid communication network models.',
-          'Focused on scalable routing strategies and clear technical visualization of algorithm behavior.'
+          'Focused on scalable routing strategies in hybrid network models.'
         ]
       },
       {
         title: 'AICON: Artificial Intelligence for Computer Networks',
-        institution: 'Paderborn University (Apr 2020 – Mar 2021)',
+        institution: 'Paderborn University, Student Assistant (Apr 2020 - Mar 2021)',
         description: [
-          'Applied reinforcement learning techniques to wireless network optimization problems.',
-          'Analyzed AI-based routing strategies for improving packet transfer efficiency.',
-          'Created network visualizations using NetworkX.'
+          'Routing of packets in a wireless network to their respective destinations.',
+          'Analysis of reinforcement learning algorithms in wireless networks using Python.',
+          'Minimizing packet loss caused by signal interference, defective nodes, and the hidden terminal problem.'
         ]
       },
       {
         title: 'Car Damage Assessment System',
-        institution: 'Mumbai University (Jun 2018 – May 2019)',
+        institution: 'Mumbai University (Jun 2018 - May 2019)',
         description: [
-          'Built a machine-learning-based image classification system for car damage assessment.',
-          'Developed the frontend interface using Angular.',
-          'Co-authored a research paper on machine-learning-based damage assessment for insurance use cases.'
+          'Built a machine-learning-based image classification system for insurance use cases.',
+          'Developed the frontend using Angular 6.',
+          'Co-authored a paper on machine-learning-based damage assessment for insurance.'
         ]
       }
     ];
@@ -131,8 +154,15 @@ export class DataService {
 
   getEducation(): Education[] {
     return [
-      { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: 'Oct. 2019 – Jan. 2026' },
-      { school: 'Mumbai University', degree: 'Bachelor’s in Computer Engineering', year: 'Jun. 2015 – May 2019' }
+      { school: 'Paderborn University', degree: 'Master’s in Computer Science', year: 'Oct 2019 - Jan 2026' },
+      { school: 'Mumbai University', degree: 'Computer Engineering', year: 'Jun 2015 - May 2019' }
+    ];
+  }
+
+  getLanguages(): Language[] {
+    return [
+      { name: 'English', level: 'C1 (Fluent, professional proficiency)' },
+      { name: 'German', level: 'B1 (Intermediate, in progress)' }
     ];
   }
 

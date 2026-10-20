@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class EducationComponent {
   education = this.dataService.getEducation();
+  languages = this.dataService.getLanguages();
 
   constructor(private dataService: DataService) { }
 }

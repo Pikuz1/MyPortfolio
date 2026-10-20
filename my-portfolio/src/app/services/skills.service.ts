@@ -7,10 +7,22 @@ import { Skill, SkillCategory } from '../models';
 export class SkillsService {
   getSkills(): Skill[] {
     return [
+      // AI & LLM
+      { name: 'RAG', category: 'ai', description: 'Retrieval-augmented generation: grounding LLM answers in retrieved source documents, such as citing the page of a contract.' },
+      { name: 'LangChain', category: 'ai', description: 'A framework for composing LLM applications from prompts, retrievers, and tools.' },
+      { name: 'Embeddings', category: 'ai', description: 'Vector representations of text, built with sentence-transformers, used for multilingual semantic search.' },
+      { name: 'ChromaDB', category: 'ai', description: 'A vector database for storing embeddings and running similarity search for retrieval.' },
+      { name: 'Gemini API', category: 'ai', description: "Google's LLM API, used to generate grounded answers from retrieved context." },
+      { name: 'Prompt Engineering', category: 'ai', description: 'Designing prompts and context so LLM output is accurate, grounded, and consistent.' },
+      { name: 'Retrieval Evaluation', category: 'ai', description: 'Measuring retrieval quality with golden question sets and metrics such as hit@k.' },
+      { name: 'Reinforcement Learning', category: 'ai', description: 'Training agents through reward signals; applied to packet routing in wireless networks at Paderborn University.' },
+
       // Frontend Development
       { name: 'React', category: 'frontend', description: 'A JavaScript library for building user interfaces with component-based architecture and virtual DOM.' },
       { name: 'Angular', category: 'frontend', description: 'A platform for building mobile and desktop web applications with TypeScript and RxJS.' },
       { name: 'Vue.js', category: 'frontend', description: 'A progressive framework for building user interfaces with intuitive API and composition API.' },
+      { name: 'Next.js', category: 'frontend', description: 'A React framework for server-rendered and statically generated web applications.' },
+      { name: 'RxJS / NgRx', category: 'frontend', description: 'Reactive programming and state management for Angular applications.' },
       { name: 'Redux', category: 'frontend', description: 'A predictable state container for JavaScript apps with centralized state management.' },
       { name: 'Storybook', category: 'frontend', description: 'An open source tool for developing UI components in isolation with documentation.' },
       { name: 'Three.js', category: 'frontend', description: 'A cross-browser JavaScript library for creating 3D graphics and animations in the browser.' },
@@ -29,6 +41,8 @@ export class SkillsService {
       // Testing & Automation
       { name: 'Cypress', category: 'testing', description: 'A front-end testing tool built for the modern web with time travel debugging and real-time reloads.' },
       { name: 'Playwright', category: 'testing', description: 'A framework for Web Testing and Automation enabling reliable end-to-end testing.' },
+      { name: 'pytest', category: 'testing', description: 'A Python testing framework for readable, scalable unit and integration tests.' },
+      { name: 'Vitest', category: 'testing', description: 'A fast unit testing framework for Vite-based projects with a Jest-compatible API.' },
       { name: 'Jest', category: 'testing', description: 'A delightful JavaScript Testing Framework with a focus on simplicity and support for large web applications.' },
       { name: 'Unit Testing', category: 'testing', description: 'A software testing method by which individual units of source code are tested to determine proper operation.' },
       { name: 'E2E Testing', category: 'testing', description: 'A methodology used to test whether the flow of an application is performing as designed from start to finish.' },
@@ -36,9 +50,11 @@ export class SkillsService {
 
       // Backend & APIs
       { name: 'Node.js', category: 'backend', description: 'A JavaScript runtime built on Chrome\'s V8 JavaScript engine for building scalable network applications.' },
+      { name: 'FastAPI', category: 'backend', description: 'A modern Python web framework for building fast, typed, async APIs.' },
       { name: 'Flask', category: 'backend', description: 'A lightweight WSGI web application framework in Python with modular design and simplicity.' },
       { name: 'REST API Integration', category: 'backend', description: 'Building and integrating RESTful web services following representational state transfer principles.' },
       { name: 'Firebase', category: 'backend', description: 'A platform developed by Google for creating mobile and web applications with backend services.' },
+      { name: 'SQLite', category: 'backend', description: 'A lightweight, file-based relational database.' },
       { name: 'MongoDB', category: 'backend', description: 'A source-available cross-platform document-oriented database program using JSON-like documents.' },
       { name: 'SQL', category: 'backend', description: 'A domain-specific language used in programming for managing data held in relational database management systems.' },
 
@@ -64,6 +80,7 @@ export class SkillsService {
   getSkillCategories(): SkillCategory[] {
     return [
       { id: 'all', name: 'All Skills' },
+      { id: 'ai', name: 'AI & LLM' },
       { id: 'frontend', name: 'Frontend Development' },
       { id: 'uiux', name: 'UI/UX & Styling' },
       { id: 'testing', name: 'Testing & Automation' },
