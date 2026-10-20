@@ -1,0 +1,14 @@
+# Local tooling and editor helpers
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# Angular cache
+.angular/
