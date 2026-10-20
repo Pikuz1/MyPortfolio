@@ -74,57 +74,45 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.renderer) {
       return;
     }
-    const rect = this.renderer.domElement.getBoundingClientRect();
-    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-    const intersects = this.raycaster.intersectObjects(this.skillSprites.map(s => s.sprite));
+    const hit = this.pickSprite(event);
+    if (hit?.skill === this.hoveredSkill) {
+      return;
+    }
 
-    if (intersects.length > 0) {
-      const intersected = intersects[0].object as THREE.Sprite;
-      const skillData = this.skillSprites.find(s => s.sprite === intersected)?.skill;
-
-      if (this.hoveredSkill !== skillData) {
-        // Reset previous hover
-        if (this.hoveredSkill) {
-          const prevSprite = this.skillSprites.find(s => s.skill === this.hoveredSkill)?.sprite;
-          if (prevSprite) {
-            (prevSprite.material as THREE.SpriteMaterial).color.set(0xffffff);
-            prevSprite.scale.set(5, 5, 1);
-          }
-        }
-
-        // Highlight new hover
-        (intersected.material as THREE.SpriteMaterial).color.set(0x00ff00);
-        intersected.scale.set(6, 6, 1);
-        this.hoveredSkill = skillData ?? null;
-      }
-    } else if (this.hoveredSkill) {
-      const prevSprite = this.skillSprites.find(s => s.skill === this.hoveredSkill)?.sprite;
-      if (prevSprite) {
-        (prevSprite.material as THREE.SpriteMaterial).color.set(0xffffff);
-        prevSprite.scale.set(5, 5, 1);
-      }
-      this.hoveredSkill = null;
+    this.clearHover();
+    if (hit) {
+      (hit.sprite.material as THREE.SpriteMaterial).color.set(0x00ff00);
+      hit.sprite.scale.set(6, 6, 1);
+      this.hoveredSkill = hit.skill;
     }
   }
 
   onCanvasClick(event: MouseEvent): void {
+    this.selectedSkill = this.pickSprite(event)?.skill ?? null;
+  }
+
+  private pickSprite(event: MouseEvent): { sprite: THREE.Sprite, skill: Skill } | null {
     const rect = this.renderer.domElement.getBoundingClientRect();
     this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
     this.raycaster.setFromCamera(this.mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(this.skillSprites.map(s => s.sprite));
-
-    if (intersects.length > 0) {
-      const intersected = intersects[0].object as THREE.Sprite;
-      const skillData = this.skillSprites.find(s => s.sprite === intersected)?.skill;
-      this.selectedSkill = skillData ?? null;
-    } else {
-      this.selectedSkill = null;
+    if (intersects.length === 0) {
+      return null;
     }
+    return this.skillSprites.find(s => s.sprite === intersects[0].object)!;
+  }
+
+  private clearHover(): void {
+    if (!this.hoveredSkill) {
+      return;
+    }
+    const previous = this.skillSprites.find(s => s.skill === this.hoveredSkill)!;
+    (previous.sprite.material as THREE.SpriteMaterial).color.set(0xffffff);
+    previous.sprite.scale.set(5, 5, 1);
+    this.hoveredSkill = null;
   }
 
   selectCategory(category: string): void {
