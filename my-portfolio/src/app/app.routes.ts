@@ -9,5 +9,6 @@ export const routes: Routes = [
   { path: 'skills', loadComponent: () => import('./pages/skills/skills.component').then(m => m.SkillsComponent) },
   { path: 'education', loadComponent: () => import('./pages/education/education.component').then(m => m.EducationComponent) },
   { path: 'certifications', loadComponent: () => import('./pages/certifications/certifications.component').then(m => m.CertificationsComponent) },
-  { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent) }
+  { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent) },
+  { path: '**', loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent) }
 ];

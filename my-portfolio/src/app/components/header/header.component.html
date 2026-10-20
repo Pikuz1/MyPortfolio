@@ -1,37 +1,25 @@
-<nav class="text-white p-4 flex justify-between items-center fixed w-full top-0 shadow-lg z-50">
+<nav class="text-white p-4 flex justify-between items-center fixed w-full top-0 shadow-lg z-50"
+     aria-label="Main navigation">
   <!-- Logo / Home Link -->
-  <a class="text-xl font-bold flex items-center cursor-pointer" (click)="navigateTo('')">
-    <i class="fas fa-home mr-2"></i> Priyanka Giri
+  <a class="text-xl font-bold flex items-center" routerLink="/" (click)="closeMenu()">
+    <i class="fas fa-home mr-2" aria-hidden="true"></i> Priyanka Giri
   </a>
 
   <!-- Mobile Menu Button -->
-  <button (click)="toggleMenu()" class="md:hidden text-white text-2xl">
-    <i class="fas fa-bars"></i>
+  <button type="button" (click)="toggleMenu()" class="md:hidden text-white text-2xl"
+          aria-label="Toggle menu" aria-controls="nav-links" [attr.aria-expanded]="menuOpen">
+    <i class="fas fa-bars" aria-hidden="true"></i>
   </button>
 
   <!-- Navbar Links (Responsive) -->
-  <div [ngClass]="{'hidden': !menuOpen, 'block': menuOpen, 'md:flex': true}"
-       class="absolute md:static top-16 left-0 w-full md:w-auto bg-black md:bg-transparent md:space-x-4 p-4 md:p-0">
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('about')">
-      <i class="fas fa-user mr-2"></i> About
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('experience')">
-      <i class="fas fa-briefcase mr-2"></i> Experience
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('projects')">
-      <i class="fas fa-project-diagram mr-2"></i> Projects
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('skills')">
-      <i class="fas fa-tools mr-2"></i> Skills
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('education')">
-      <i class="fas fa-graduation-cap mr-2"></i> Education
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('certifications')">
-      <i class="fas fa-certificate mr-2"></i> Certifications
-    </a>
-    <a class="flex items-center px-3 py-2 hover:text-gray-400 cursor-pointer" (click)="navigateTo('contact')">
-      <i class="fas fa-envelope mr-2"></i> Contact
-    </a>
+  <div id="nav-links"
+       [class.hidden]="!menuOpen" [class.block]="menuOpen"
+       class="md:flex absolute md:static top-16 left-0 w-full md:w-auto bg-black md:bg-transparent md:space-x-4 p-4 md:p-0">
+    @for (link of links; track link.path) {
+      <a class="flex items-center px-3 py-2 hover:text-gray-400"
+         [routerLink]="link.path" routerLinkActive="text-cyan-300" (click)="closeMenu()">
+        <i class="fas {{ link.icon }} mr-2" aria-hidden="true"></i> {{ link.label }}
+      </a>
+    }
   </div>
 </nav>

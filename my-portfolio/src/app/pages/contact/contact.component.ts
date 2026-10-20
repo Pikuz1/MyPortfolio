@@ -15,25 +15,27 @@ export class ContactComponent {
   serviceID = 'service_pzqahik';
   templateID = 'template_cllp88p';
   publicKey = 'TxB5tM2CWI4smPlsc';
+  status: 'idle' | 'sending' | 'success' | 'error' = 'idle';
 
   constructor(private dataService: DataService) { }
 
-  sendEmail(form: NgForm) {
-    if (form.valid) {
-      const templateParams = {
+  async sendEmail(form: NgForm) {
+    if (!form.valid) {
+      form.control.markAllAsTouched();
+      return;
+    }
+
+    this.status = 'sending';
+    try {
+      await emailjs.send(this.serviceID, this.templateID, {
         name: form.value.name,
         email: form.value.email,
         message: form.value.message
-      };
-
-      emailjs.send(this.serviceID, this.templateID, templateParams, this.publicKey)
-        .then(() => {
-          alert('Message sent successfully!');
-          form.reset();
-        })
-        .catch(() => {
-          alert('Failed to send message.');
-        });
+      }, this.publicKey);
+      this.status = 'success';
+      form.resetForm();
+    } catch {
+      this.status = 'error';
     }
   }
 }

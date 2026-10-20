@@ -6,7 +6,7 @@ describe('routes', () => {
     expect(routes.find(r => r.path === '')?.component).toBe(HomeComponent);
   });
 
-  it('lazy-loads every other page', async () => {
+  it('lazy-loads every other page and the 404 page', async () => {
     const expected: Record<string, string> = {
       about: 'AboutComponent',
       experience: 'ExperienceComponent',
@@ -14,7 +14,8 @@ describe('routes', () => {
       skills: 'SkillsComponent',
       education: 'EducationComponent',
       certifications: 'CertificationsComponent',
-      contact: 'ContactComponent'
+      contact: 'ContactComponent',
+      '**': 'NotFoundComponent'
     };
 
     for (const [path, name] of Object.entries(expected)) {
