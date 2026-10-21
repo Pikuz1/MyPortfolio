@@ -26,6 +26,7 @@ describe('ProjectsComponent', () => {
     const links = el.querySelectorAll('a');
     expect(links.length).toBe(component.projects.filter(p => p.link).length);
     expect(links[0].getAttribute('href')).toBe('https://github.com/Pikuz1/Documind');
+    expect(links.length).toBe(3);
   });
 
   it('tilts every card', () => {

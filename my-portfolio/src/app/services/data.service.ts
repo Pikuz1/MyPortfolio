@@ -117,6 +117,7 @@ export class DataService {
       {
         title: 'Smart Factory Digital Twin',
         institution: 'Personal Project (May 2025 - Present)',
+        link: 'https://github.com/Pikuz1/SmartFactoryDigitalTwin',
         description: [
           'Built a real-time React and TypeScript UI system with Three.js and WebSocket for interactive factory visualization.',
           'Designed user-centric UI/UX workflows for monitoring, control, and status-based machine interactions.',
@@ -127,6 +128,7 @@ export class DataService {
       {
         title: 'Near-Shortest Path Routing in Hybrid Communication Networks',
         institution: 'Paderborn University, Master’s Thesis (Feb 2025 - Jul 2025)',
+        link: 'https://github.com/Pikuz1/NearShortestPathfinding',
         description: [
           'Designed and implemented routing algorithms in Python using NetworkX and Matplotlib.',
           'Focused on scalable routing strategies in hybrid network models.'

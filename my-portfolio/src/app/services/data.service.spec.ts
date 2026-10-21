@@ -36,6 +36,13 @@ describe('DataService', () => {
     expect(projects[0].link).toBe('https://github.com/Pikuz1/Documind');
   });
 
+  it('links the projects that have a public repository', () => {
+    const links = Object.fromEntries(service.getProjects().map(p => [p.title.split(':')[0], p.link]));
+    expect(links['Smart Factory Digital Twin']).toBe('https://github.com/Pikuz1/SmartFactoryDigitalTwin');
+    expect(links['Near-Shortest Path Routing in Hybrid Communication Networks'])
+      .toBe('https://github.com/Pikuz1/NearShortestPathfinding');
+  });
+
   it('returns education, languages and certifications', () => {
     expect(service.getEducation().length).toBe(2);
     expect(service.getLanguages().map(l => l.name)).toEqual(['English', 'German']);
