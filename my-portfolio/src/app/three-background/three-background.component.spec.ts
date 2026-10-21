@@ -112,6 +112,31 @@ describe('ThreeBackgroundComponent', () => {
       expect(component.particleSystem.rotation.y).toBeCloseTo(0);
     });
 
+    it('shrinks the dots and softens the glow for the letters, then restores them', () => {
+      background.show('initials');
+      frames(300);
+      expect(component.material.size).toBeCloseTo(0.045, 3);
+      expect(component.bloomPass.strength).toBeCloseTo(0.6, 2);
+
+      background.show('drift');
+      frames(300);
+      expect(component.material.size).toBeCloseTo(0.1, 3);
+      expect(component.bloomPass.strength).toBeCloseTo(1.5, 2);
+    });
+
+    it('makes the letters narrower on a narrow screen', () => {
+      const widest = () => Math.max(...Array.from({ length: 1000 }, (_, i) => Math.abs(component.initialsPositions[i * 3])));
+      const width = spyOnProperty(window, 'innerWidth').and.returnValue(1600);
+      const height = spyOnProperty(window, 'innerHeight').and.returnValue(900);
+      window.dispatchEvent(new Event('resize'));
+      expect(widest()).toBeGreaterThan(2);
+
+      width.and.returnValue(400);
+      height.and.returnValue(800);
+      window.dispatchEvent(new Event('resize'));
+      expect(widest()).toBeLessThanOrEqual(1.7);
+    });
+
     it('lets the particles drift apart again', () => {
       background.show('initials');
       frames(300);
@@ -140,6 +165,7 @@ describe('ThreeBackgroundComponent', () => {
 
       TestBed.inject(BackgroundService).show('initials');
       component.animate();
+      expect(component.material.size).toBeCloseTo(0.045, 5);
       expect(component.particleSystem.geometry.getAttribute('position').array)
         .toEqual(component.initialsPositions);
       fixture.destroy();

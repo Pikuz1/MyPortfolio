@@ -2,9 +2,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
 import type * as THREE from 'three';
 import type { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import type { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { BackgroundService } from '../services/background.service';
 import { prefersReducedMotion } from '../three/motion';
 import { sampleTextPoints } from '../three/text-points';
+
+const THREE_FOV = 75;
 
 @Component({
   selector: 'app-three-background',
@@ -19,6 +22,8 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   private renderer!: THREE.WebGLRenderer;
   private particleSystem!: THREE.Points;
   private composer!: EffectComposer;
+  private material!: THREE.PointsMaterial;
+  private bloomPass!: UnrealBloomPass;
   private frameId: number | null = null;
   private driftPositions!: Float32Array;
   private initialsPositions!: Float32Array;
@@ -86,7 +91,7 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
 
     // Scene and Camera
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(THREE_FOV, width / height, 0.1, 1000);
     this.camera.position.z = 5;
 
     // Renderer
@@ -106,17 +111,16 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     this.driftPositions = positions.slice();
-    this.initialsPositions = sampleTextPoints('PG', particles);
     this.reducedMotion = prefersReducedMotion();
 
-    const material = new THREE.PointsMaterial({
+    this.material = new THREE.PointsMaterial({
       size: 0.1,
       color: new THREE.Color(0xffffff), // White color for glow effect
       transparent: true,
       opacity: 1.0,
     });
 
-    this.particleSystem = new THREE.Points(geometry, material);
+    this.particleSystem = new THREE.Points(geometry, this.material);
     this.scene.add(this.particleSystem);
 
     // Lights (Optional for 3D meshes)
@@ -126,7 +130,7 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
 
     // Postprocessing (EffectComposer for Bloom)
     const renderPass = new RenderPass(this.scene, this.camera);
-    const bloomPass = new UnrealBloomPass(
+    this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(window.innerWidth, window.innerHeight),
       1.5,   // strength of bloom
       0.4,   // radius
@@ -135,7 +139,9 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
 
     this.composer = new Composer(this.renderer);
     this.composer.addPass(renderPass);
-    this.composer.addPass(bloomPass);
+    this.composer.addPass(this.bloomPass);
+
+    this.buildInitials();
 
     // Resize event listener
     window.addEventListener('resize', this.onResizeHandler);
@@ -146,6 +152,7 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
 
     const toInitials = this.background.formation() === 'initials';
     this.morphParticles(toInitials ? this.initialsPositions : this.driftPositions);
+    this.morphLook(toInitials);
     this.spinParticles(toInitials);
 
     // Render with composer (Bloom effect)
@@ -161,6 +168,20 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
       positions[i] += (target[i] - positions[i]) * ease;
     }
     attribute.needsUpdate = true;
+  }
+
+  /** Fades towards small, crisp dots with less glow for the letters, and back for the drifting cloud. */
+  private morphLook(toInitials: boolean) {
+    const ease = this.reducedMotion ? 1 : 0.06;
+    this.material.size += ((toInitials ? 0.045 : 0.1) - this.material.size) * ease;
+    this.bloomPass.strength += ((toInitials ? 0.6 : 1.5) - this.bloomPass.strength) * ease;
+  }
+
+  /** Samples the initials again so they fit the current window, also on a narrow phone screen. */
+  private buildInitials() {
+    const fov = THREE_FOV * Math.PI / 180;
+    const visibleWidth = 2 * this.camera.position.z * Math.tan(fov / 2) * this.camera.aspect;
+    this.initialsPositions = sampleTextPoints('PG', this.driftPositions.length / 3, Math.min(9, visibleWidth * 0.85));
   }
 
   /** Slowly rotates the cloud, or turns it to face the camera while it forms the initials. */
@@ -184,6 +205,7 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
     this.composer.setSize(width, height);
+    this.buildInitials();
   }
 
   addMouseParallax() {

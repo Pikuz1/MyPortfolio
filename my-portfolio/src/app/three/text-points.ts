@@ -27,7 +27,8 @@ export function sampleTextPoints(text: string, count: number, width = 6): Float3
   const scale = width / CANVAS_WIDTH;
   const points = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
-    const pixel = filled[Math.floor(Math.random() * filled.length)];
+    // One random pick per equal slice of the letter pixels, so the points spread evenly
+    const pixel = filled[Math.floor((i + Math.random()) * filled.length / count)];
     points[i * 3] = ((pixel % CANVAS_WIDTH) - CANVAS_WIDTH / 2) * scale;
     points[i * 3 + 1] = (CANVAS_HEIGHT / 2 - Math.floor(pixel / CANVAS_WIDTH)) * scale;
     points[i * 3 + 2] = (Math.random() - 0.5) * 0.3;
