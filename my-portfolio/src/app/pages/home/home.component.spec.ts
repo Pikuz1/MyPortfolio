@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BackgroundService } from '../../services/background.service';
 import { HomeComponent } from './home.component';
+import { I18nService } from '../../i18n/i18n.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -33,5 +34,16 @@ describe('HomeComponent', () => {
   it('lets the particles drift again when the visitor leaves', () => {
     fixture.destroy();
     expect(background.formation()).toBe('drift');
+  });
+
+  it('sizes the picture with the window height so the page fits short screens', () => {
+    expect(el.querySelector('img')?.className).toContain('dvh');
+  });
+
+  it('shows the German headline and tagline', () => {
+    TestBed.inject(I18nService).set('de');
+    fixture.detectChanges();
+    expect(el.querySelector('h1')?.textContent).toContain('Willkommen in meinem Portfolio');
+    expect(el.querySelector('p')?.textContent).toContain('künstlicher Intelligenz');
   });
 });

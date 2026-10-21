@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { I18nService } from '../../i18n/i18n.service';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { TiltDirective } from '../../directives/tilt.directive';
@@ -10,7 +11,9 @@ import { TiltDirective } from '../../directives/tilt.directive';
   templateUrl: './projects.component.html'
 })
 export class ProjectsComponent {
-  projects = this.dataService.getProjects();
+  constructor(private dataService: DataService, public i18n: I18nService) { }
 
-  constructor(private dataService: DataService) { }
+  get projects() {
+    return this.dataService.getProjects();
+  }
 }

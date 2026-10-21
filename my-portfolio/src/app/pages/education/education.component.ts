@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { I18nService } from '../../i18n/i18n.service';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,8 +10,13 @@ import { CommonModule } from '@angular/common';
   templateUrl: './education.component.html'
 })
 export class EducationComponent {
-  education = this.dataService.getEducation();
-  languages = this.dataService.getLanguages();
+  constructor(private dataService: DataService, public i18n: I18nService) { }
 
-  constructor(private dataService: DataService) { }
+  get education() {
+    return this.dataService.getEducation();
+  }
+
+  get languages() {
+    return this.dataService.getLanguages();
+  }
 }

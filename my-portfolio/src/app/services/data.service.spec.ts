@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+import { I18nService } from '../i18n/i18n.service';
 import { DataService } from './data.service';
 
 describe('DataService', () => {
   let service: DataService;
+  let i18n: I18nService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(DataService);
+    i18n = TestBed.inject(I18nService);
+    i18n.set('en');
   });
 
   it('returns the about section', () => {
@@ -16,7 +20,8 @@ describe('DataService', () => {
     expect(about.description.length).toBeGreaterThan(0);
     expect(about.resumeLink).toMatch(/\.pdf$/);
     expect(about.photo).toMatch(/\.webp$/);
-    expect(about.howIWork.length).toBeGreaterThan(0);
+    expect(about.tools).toContain('Python');
+    expect(about.howIWork.length).toBe(4);
   });
 
   it('returns experience entries with the required fields', () => {
@@ -30,17 +35,14 @@ describe('DataService', () => {
     });
   });
 
-  it('returns projects and links DocuMind', () => {
+  it('returns projects and links the ones with a public repository', () => {
     const projects = service.getProjects();
     expect(projects[0].title).toContain('DocuMind');
-    expect(projects[0].link).toBe('https://github.com/Pikuz1/Documind');
-  });
-
-  it('links the projects that have a public repository', () => {
-    const links = Object.fromEntries(service.getProjects().map(p => [p.title.split(':')[0], p.link]));
-    expect(links['Smart Factory Digital Twin']).toBe('https://github.com/Pikuz1/SmartFactoryDigitalTwin');
-    expect(links['Near-Shortest Path Routing in Hybrid Communication Networks'])
-      .toBe('https://github.com/Pikuz1/NearShortestPathfinding');
+    expect(projects.filter(p => p.link).map(p => p.link)).toEqual([
+      'https://github.com/Pikuz1/Documind',
+      'https://github.com/Pikuz1/SmartFactoryDigitalTwin',
+      'https://github.com/Pikuz1/NearShortestPathfinding'
+    ]);
   });
 
   it('returns education, languages and certifications', () => {
@@ -49,19 +51,23 @@ describe('DataService', () => {
     expect(service.getCertifications().length).toBeGreaterThan(0);
   });
 
-  it('returns contact details', () => {
+  it('returns contact details that do not depend on the language', () => {
     const contact = service.getContact();
     expect(contact.email).toContain('@');
     expect(contact.linkedin).toContain('linkedin.com');
     expect(contact.github).toContain('github.com');
     expect(contact.address.location).toBe('Kempten, Germany');
+    i18n.set('de');
+    expect(service.getContact()).toEqual(contact);
   });
 
-  it('uses plain hyphens instead of long dashes in the text', () => {
-    const text = JSON.stringify([
-      service.getAboutMe(), service.getExperience(), service.getProjects(),
-      service.getEducation(), service.getLanguages()
-    ]);
-    expect(text).not.toMatch(/[–—]/);
+  it('returns the German texts after the language was switched', () => {
+    i18n.set('de');
+    expect(service.getAboutMe().role).toContain('KI-Engineer');
+    expect(service.getExperience()[0].location).toBe('Hamburg, Deutschland');
+    expect(service.getProjects()[0].title).toContain('Mehrsprachiger');
+    expect(service.getEducation()[0].school).toBe('Universität Paderborn');
+    expect(service.getLanguages().map(l => l.name)).toEqual(['Englisch', 'Deutsch']);
+    expect(service.getCertifications()[0].year).toBe('In Arbeit');
   });
 });

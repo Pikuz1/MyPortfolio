@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { I18nService } from '../i18n/i18n.service';
 import { SkillsService } from './skills.service';
 
 describe('SkillsService', () => {
@@ -9,15 +10,32 @@ describe('SkillsService', () => {
     service = TestBed.inject(SkillsService);
   });
 
-  it('returns skills with a name, description and known category', () => {
+  it('returns skills with a name and a known category', () => {
     const ids = service.getSkillCategories().map(c => c.id);
     const skills = service.getSkills();
     expect(skills.length).toBeGreaterThan(0);
     skills.forEach(skill => {
       expect(skill.name).toBeTruthy();
-      expect(skill.description).toBeTruthy();
       expect(ids).toContain(skill.category);
     });
+  });
+
+  it('describes every skill in the current language', () => {
+    const i18n = TestBed.inject(I18nService);
+    i18n.set('en');
+    service.getSkills().forEach(skill => expect(service.describe(skill.name)).withContext(skill.name).toBeTruthy());
+    expect(service.describe('Python')).toContain('programming language');
+
+    i18n.set('de');
+    expect(service.describe('Python')).toContain('Programmiersprache');
+  });
+
+  it('names the categories in the current language', () => {
+    const i18n = TestBed.inject(I18nService);
+    i18n.set('de');
+    expect(service.getSkillCategories()[0].name).toBe('Alle Fähigkeiten');
+    i18n.set('en');
+    expect(service.getSkillCategories()[0].name).toBe('All Skills');
   });
 
   it('has unique skill names', () => {

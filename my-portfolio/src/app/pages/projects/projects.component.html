@@ -1,10 +1,10 @@
 <section class="glass-section text-white">
-  <h1 class="text-3xl font-bold text-center mb-8">Projects</h1>
+  <h1 class="text-3xl font-bold text-center mb-5">{{ i18n.ui.projects.title }}</h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
     <div *ngFor="let project of projects" appTilt
-         class="p-5 rounded-xl
+         class="p-4 rounded-xl
                 bg-[rgba(10,25,47,0.2)] backdrop-blur-md
                 border border-[rgba(100,255,218,0.1)]
                 shadow-lg transition-all duration-300
@@ -14,11 +14,11 @@
         {{ project.title }}
       </h2>
 
-      <p class="text-sm italic text-gray-300 mb-3">
+      <p class="text-sm italic text-gray-300 mb-2">
         {{ project.institution }}
       </p>
 
-      <ul class="list-disc list-inside space-y-1 text-sm">
+      <ul class="list-disc list-inside space-y-0.5 text-sm">
         <li *ngFor="let point of project.description">
           {{ point }}
         </li>
@@ -26,7 +26,7 @@
 
       <a *ngIf="project.link" [href]="project.link" target="_blank" rel="noopener noreferrer"
          class="inline-flex items-center mt-4 text-sm text-cyan-300 hover:underline">
-        <i class="fab fa-github mr-2"></i> View on GitHub
+        <i class="fab fa-github mr-2"></i> {{ i18n.ui.projects.viewOnGithub }}
       </a>
 
     </div>

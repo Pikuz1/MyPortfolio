@@ -1,12 +1,14 @@
-<section class="p-6 text-center text-white">
-  <h1 class="text-5xl font-bold mb-4">Welcome to My Portfolio</h1>
-  <p class="text-lg mb-6">AI Engineer and Full-Stack Software Engineer. I build LLM applications and scalable web platforms.</p>
+<section class="p-4 md:p-6 text-center text-white">
+  <h1 class="font-bold mb-3 text-[clamp(1.6rem,6vw,3rem)] leading-tight">{{ i18n.ui.home.title }}</h1>
+  <p class="mb-4 md:mb-6 text-[clamp(0.9rem,2.6vw,1.125rem)]">
+    {{ i18n.ui.home.tagline }}
+  </p>
 
-  <!-- Responsive Image -->
+  <!-- The picture shrinks with the window height, so the page fits short screens too -->
   <div class="flex justify-center">
     <img src="assets/my-sticker.webp"
          alt="Priyanka Giri"
          width="224" height="224" fetchpriority="high"
-         class="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 rounded-full shadow-lg object-cover border-4 border-gray-300">
+         class="w-[clamp(7rem,28dvh,14rem)] h-[clamp(7rem,28dvh,14rem)] rounded-full shadow-lg object-cover border-4 border-gray-300">
   </div>
 </section>

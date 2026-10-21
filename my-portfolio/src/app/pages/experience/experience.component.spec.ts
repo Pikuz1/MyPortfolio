@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExperienceComponent } from './experience.component';
+import { I18nService } from '../../i18n/i18n.service';
 
 describe('ExperienceComponent', () => {
   let component: ExperienceComponent;
@@ -27,5 +28,13 @@ describe('ExperienceComponent', () => {
     expect(el.textContent).toContain('Hamburg, Germany | Oct 2025 - Jun 2026');
     expect(el.textContent).toContain('Dec 2017 - Dec 2018');
     expect(el.textContent).not.toContain('| Dec 2017');
+  });
+
+  it('shows the German texts', () => {
+    TestBed.inject(I18nService).set('de');
+    fixture.detectChanges();
+    expect(el.querySelector('h1')?.textContent).toContain('Berufserfahrung');
+    expect(el.textContent).toContain('Hamburg, Deutschland | Okt 2025 - Jun 2026');
+    expect(el.textContent).toContain('Eine komplette Analyseplattform'); 
   });
 });

@@ -1,10 +1,15 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { I18nService } from '../../i18n/i18n.service';
 import { SkillsService } from '../../services/skills.service';
 import { Skill, SkillCategory } from '../../models';
-import { createSkillTexture, ICON_FONT } from '../../three/skill-label';
+import { prefersReducedMotion } from '../../three/motion';
+import { CATEGORY_STYLE, createSkillTexture, ICON_FONT } from '../../three/skill-label';
+
+const LABEL_SCALE = { x: 7.5, y: 3.75 };
+const HOVER_SCALE = { x: 9, y: 4.5 };
 
 @Component({
   selector: 'app-skills',
@@ -13,7 +18,7 @@ import { createSkillTexture, ICON_FONT } from '../../three/skill-label';
   templateUrl: './skills.component.html',
   styleUrls: ['./skills.component.css']
 })
-export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SkillsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasContainer', { static: true }) canvasContainer!: ElementRef<HTMLDivElement>;
 
   private scene!: THREE.Scene;
@@ -27,22 +32,27 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   private frameId: number | null = null;
   private connections: THREE.LineSegments | null = null;
   private destroyed = false;
+  private reducedMotion = false;
 
   /** Resolves once the icon font is loaded and the sphere is on screen. */
   ready: Promise<void> = Promise.resolve();
 
-  skillCategories: SkillCategory[] = [];
   selectedCategory: string = 'all';
   selectedSkill: Skill | null = null;
   showConnections = false;
 
   constructor(
     private skillsService: SkillsService,
+    public i18n: I18nService,
     @Inject(PLATFORM_ID) private platformId: object
   ) {}
 
-  ngOnInit(): void {
-    this.skillCategories = this.skillsService.getSkillCategories();
+  get skillCategories(): SkillCategory[] {
+    return this.skillsService.getSkillCategories();
+  }
+
+  describe(skill: Skill): string {
+    return this.skillsService.describe(skill.name);
   }
 
   ngAfterViewInit(): void {
@@ -93,6 +103,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const hit = this.pickSprite(event);
+    this.renderer.domElement.style.cursor = hit ? 'pointer' : 'grab';
     if (hit?.skill === this.hoveredSkill) {
       return;
     }
@@ -100,7 +111,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.clearHover();
     if (hit) {
       (hit.sprite.material as THREE.SpriteMaterial).color.set(0x00ff00);
-      hit.sprite.scale.set(6, 6, 1);
+      hit.sprite.scale.set(HOVER_SCALE.x, HOVER_SCALE.y, 1);
       this.hoveredSkill = hit.skill;
     }
   }
@@ -128,7 +139,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const previous = this.skillSprites.find(s => s.skill === this.hoveredSkill)!;
     (previous.sprite.material as THREE.SpriteMaterial).color.set(0xffffff);
-    previous.sprite.scale.set(5, 5, 1);
+    previous.sprite.scale.set(LABEL_SCALE.x, LABEL_SCALE.y, 1);
     this.hoveredSkill = null;
   }
 
@@ -136,6 +147,14 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selectedCategory = category;
     this.updateSkillVisibility();
     this.updateConnections();
+  }
+
+  categoryColor(id: string): string | null {
+    return id === 'all' ? null : CATEGORY_STYLE[id as keyof typeof CATEGORY_STYLE].color;
+  }
+
+  categoryName(id: string): string {
+    return this.skillCategories.find(category => category.id === id)!.name;
   }
 
   toggleConnections(): void {
@@ -192,7 +211,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    this.camera.position.z = 50;
+    this.camera.position.z = 36;
 
     // Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -205,6 +224,10 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
     this.controls.rotateSpeed = 0.5;
+    this.controls.minDistance = 22;
+    this.controls.maxDistance = 70;
+    this.controls.autoRotateSpeed = 0.8;
+    this.reducedMotion = prefersReducedMotion();
 
     // Create skill sphere
     this.createSkillSphere();
@@ -231,7 +254,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
       // Create sprite
       const sprite = new THREE.Sprite(material);
       sprite.position.set(x, y, z);
-      sprite.scale.set(5, 5, 1);
+      sprite.scale.set(LABEL_SCALE.x, LABEL_SCALE.y, 1);
       sprite.userData = { skill };
 
       this.scene.add(sprite);
@@ -247,6 +270,8 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
       sprite.lookAt(this.camera.position);
     });
 
+    // The sphere turns slowly by itself, and holds still while a skill is hovered or open
+    this.controls.autoRotate = !this.reducedMotion && !this.hoveredSkill && !this.selectedSkill;
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }

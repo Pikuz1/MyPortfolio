@@ -1,96 +1,47 @@
-<!-- <section class="p-6 animate-fadeIn text-white ">
-  <h1 class="text-3xl font-bold text-center mb-6">Skills</h1>
-
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-blue-600 mb-4">Technical Skills</h2>
-    <div class="flex flex-wrap justify-center">
-      <span *ngFor="let skill of skills.technical_languages"
-        class="m-2 px-4 py-2 bg-gray-800 text-white rounded-lg shadow-md hover:scale-105 transition transform">
-        {{ skill }}
-      </span>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-yellow-600 mb-4">Developer Tools</h2>
-    <div class="flex flex-wrap justify-center">
-      <span *ngFor="let tool of skills.developer_tools"
-        class="m-2 px-4 py-2 bg-yellow-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
-        {{ tool }}
-      </span>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-green-600 mb-4">Frameworks</h2>
-    <div class="flex flex-wrap justify-center">
-      <span *ngFor="let framework of skills.frameworks"
-        class="m-2 px-4 py-2 bg-green-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
-        {{ framework }}
-      </span>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-purple-600 mb-4">Soft Skills</h2>
-    <div class="flex flex-wrap justify-center">
-      <span *ngFor="let softSkill of skills.softSkills"
-        class="m-2 px-4 py-2 bg-purple-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
-        {{ softSkill }}
-      </span>
-    </div>
-  </div>
-
-  <div class="mb-6">
-    <h2 class="text-2xl font-semibold text-red-600 mb-4">Languages</h2>
-    <div class="flex flex-wrap justify-center">
-      <span *ngFor="let lang of skills.languages"
-        class="m-2 px-4 py-2 bg-red-700 text-white rounded-lg shadow-md hover:scale-105 transition transform">
-        {{ lang.name }} - {{ lang.level }}
-      </span>
-    </div>
-  </div>
-</section> -->
-
-<!-- skills.component.html -->
 <div class="skills-container">
   <div class="header">
-    <h2>Skills & Expertise</h2>
-    <p>Interact with a 3D visualization of my frontend, UI/UX, and engineering skills.</p>
-    <p>Rotate, zoom, and select skills to explore my expertise.</p>
+    <h2>{{ i18n.ui.skills.title }}</h2>
+    <p>{{ i18n.ui.skills.subtitle }}</p>
   </div>
 
   <div class="content">
-    <div class="canvas-container" #canvasContainer></div>
+    <div class="stage">
+      <div class="canvas-container" #canvasContainer></div>
 
+      <div class="skill-details" *ngIf="selectedSkill" aria-live="polite">
+        <span class="category-tag" [style.color]="categoryColor(selectedSkill.category)"
+              [style.border-color]="categoryColor(selectedSkill.category)">
+          {{ categoryName(selectedSkill.category) }}
+        </span>
+        <h3>{{ selectedSkill.name }}</h3>
+        <p>{{ describe(selectedSkill) }}</p>
+      </div>
+
+      <p class="instructions">{{ i18n.ui.skills.hint }}</p>
+    </div>
+
+    <aside class="sidebar">
     <div class="category-selector">
       <button
         *ngFor="let category of skillCategories"
+        type="button"
         (click)="selectCategory(category.id)"
         [class.active]="selectedCategory === category.id"
+        [attr.aria-pressed]="selectedCategory === category.id"
         class="category-btn">
+        <span class="dot" *ngIf="categoryColor(category.id) as color" [style.background]="color"></span>
         {{ category.name }}
       </button>
-      <button
-        type="button"
-        (click)="toggleConnections()"
-        [class.active]="showConnections"
-        [attr.aria-pressed]="showConnections"
-        class="category-btn">
-        {{ showConnections ? 'Hide connections' : 'Show connections' }}
-      </button>
     </div>
 
-    <div class="skill-details" *ngIf="selectedSkill">
-      <h3>{{ selectedSkill.name }}</h3>
-      <p>{{ selectedSkill.description }}</p>
-      <span class="category-tag">{{ selectedSkill.category }}</span>
-    </div>
-  </div>
-
-  <div class="instructions">
-    <p>Drag to rotate the sphere, scroll to zoom, click a skill for details, or show connections to see which skills work together</p>
+    <button
+      type="button"
+      (click)="toggleConnections()"
+      [class.active]="showConnections"
+      [attr.aria-pressed]="showConnections"
+      class="connections-btn">
+      {{ showConnections ? i18n.ui.skills.hideConnections : i18n.ui.skills.showConnections }}
+    </button>
+    </aside>
   </div>
 </div>
-
-

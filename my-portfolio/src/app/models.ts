@@ -4,6 +4,7 @@ export interface AboutMe {
   description: string[];
   resumeLink: string;
   photo: string;
+  tools: string[];
   howIWork: { title: string; text: string }[];
 }
 
@@ -50,7 +51,6 @@ export type SkillCategoryId = 'ai' | 'frontend' | 'uiux' | 'testing' | 'backend'
 export interface Skill {
   name: string;
   category: SkillCategoryId;
-  description: string;
 }
 
 export interface SkillCategory {

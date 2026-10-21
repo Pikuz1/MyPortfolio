@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { I18nService } from '../../i18n/i18n.service';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +10,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './experience.component.html'
 })
 export class ExperienceComponent {
-  experiences = this.dataService.getExperience();
+  constructor(private dataService: DataService, public i18n: I18nService) { }
 
-  constructor(private dataService: DataService) { }
+  get experiences() {
+    return this.dataService.getExperience();
+  }
 }

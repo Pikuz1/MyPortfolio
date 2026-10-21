@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Lang, Ui } from '../../i18n/content.model';
+import { I18nService } from '../../i18n/i18n.service';
 
 @Component({
   selector: 'app-header',
@@ -11,15 +13,22 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class HeaderComponent {
   menuOpen = false;
 
-  readonly links = [
-    { path: '/about', label: 'About', icon: 'fa-user' },
-    { path: '/experience', label: 'Experience', icon: 'fa-briefcase' },
-    { path: '/projects', label: 'Projects', icon: 'fa-project-diagram' },
-    { path: '/skills', label: 'Skills', icon: 'fa-tools' },
-    { path: '/education', label: 'Education', icon: 'fa-graduation-cap' },
-    { path: '/certifications', label: 'Certifications', icon: 'fa-certificate' },
-    { path: '/contact', label: 'Contact', icon: 'fa-envelope' }
+  readonly languages: { code: Lang; label: string }[] = [
+    { code: 'en', label: 'EN' },
+    { code: 'de', label: 'DE' }
   ];
+
+  readonly links: { path: string; key: keyof Ui['nav']; icon: string }[] = [
+    { path: '/about', key: 'about', icon: 'fa-user' },
+    { path: '/experience', key: 'experience', icon: 'fa-briefcase' },
+    { path: '/projects', key: 'projects', icon: 'fa-project-diagram' },
+    { path: '/skills', key: 'skills', icon: 'fa-tools' },
+    { path: '/education', key: 'education', icon: 'fa-graduation-cap' },
+    { path: '/certifications', key: 'certifications', icon: 'fa-certificate' },
+    { path: '/contact', key: 'contact', icon: 'fa-envelope' }
+  ];
+
+  constructor(public i18n: I18nService) {}
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;

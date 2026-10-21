@@ -1,4 +1,6 @@
 import { routes } from './app.routes';
+import { de } from './i18n/de';
+import { en } from './i18n/en';
 import { HomeComponent } from './pages/home/home.component';
 
 describe('routes', () => {
@@ -25,9 +27,13 @@ describe('routes', () => {
     }
   });
 
-  it('gives every lazy page its own title', () => {
-    routes.filter(r => r.path !== '').forEach(route => {
-      expect(String(route.title)).withContext(String(route.path)).toMatch(/ \| Priyanka Giri$/);
+  it('gives every page a title key that has a title in both languages', () => {
+    const keys = routes.map(route => route.data?.['titleKey']);
+    expect(keys.every(Boolean)).toBeTrue();
+    expect(new Set(keys).size).toBe(keys.length);
+    keys.forEach(key => {
+      expect(en.ui.titles[key as keyof typeof en.ui.titles]).withContext(key).toBeTruthy();
+      expect(de.ui.titles[key as keyof typeof de.ui.titles]).withContext(key).toBeTruthy();
     });
   });
 });

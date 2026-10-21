@@ -1,6 +1,8 @@
 import { PLATFORM_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkillsComponent } from './skills.component';
+import { de } from '../../i18n/de';
+import { I18nService } from '../../i18n/i18n.service';
 
 describe('SkillsComponent', () => {
   const create = async (platform: 'browser' | 'server') => {
@@ -41,8 +43,7 @@ describe('SkillsComponent', () => {
     it('creates one sprite per skill and the category buttons', () => {
       expect(component.skillSprites.length).toBe(component['skillsService'].getSkills().length);
       const buttons = fixture.nativeElement.querySelectorAll('.category-btn');
-      // one button per category plus the connections toggle
-      expect(buttons.length).toBe(component.skillCategories.length + 1);
+      expect(buttons.length).toBe(component.skillCategories.length);
     });
 
     it('filters the sprites by category', () => {
@@ -56,7 +57,7 @@ describe('SkillsComponent', () => {
       const { sprite, skill } = nearest()[0];
       hover(sprite);
       expect(component.hoveredSkill).toBe(skill);
-      expect(sprite.scale.x).toBe(6);
+      expect(sprite.scale.x).toBe(9);
       expect(sprite.material.color.getHex()).toBe(0x00ff00);
 
       hover(sprite);
@@ -72,7 +73,7 @@ describe('SkillsComponent', () => {
       hover(first.sprite);
       hover(second.sprite);
 
-      expect(first.sprite.scale.x).toBe(5);
+      expect(first.sprite.scale.x).toBe(7.5);
       expect(first.sprite.material.color.getHex()).toBe(0xffffff);
       expect(component.hoveredSkill).toBe(second.skill);
     });
@@ -82,7 +83,7 @@ describe('SkillsComponent', () => {
       hover(sprite);
       component.onMouseMove(emptySpace());
       expect(component.hoveredSkill).toBeNull();
-      expect(sprite.scale.x).toBe(5);
+      expect(sprite.scale.x).toBe(7.5);
     });
 
     it('ignores mouse movement over empty space', () => {
@@ -146,14 +147,86 @@ describe('SkillsComponent', () => {
       });
 
       it('are switched by the button', () => {
-        const buttons = fixture.nativeElement.querySelectorAll('.category-btn') as NodeListOf<HTMLButtonElement>;
-        const button = buttons[buttons.length - 1];
+        const button = fixture.nativeElement.querySelector('.connections-btn') as HTMLButtonElement;
         expect(button.textContent).toContain('Show connections');
         button.click();
         fixture.detectChanges();
         expect(button.textContent).toContain('Hide connections');
         expect(button.getAttribute('aria-pressed')).toBe('true');
       });
+    });
+
+    it('shows a pointer over a skill and a grab hand over empty space', () => {
+      const { sprite } = nearest()[0];
+      hover(sprite);
+      expect(component.renderer.domElement.style.cursor).toBe('pointer');
+      component.onMouseMove(emptySpace());
+      expect(component.renderer.domElement.style.cursor).toBe('grab');
+    });
+
+    it('turns by itself, but holds still while a skill is hovered or open', () => {
+      spyOn(window, 'requestAnimationFrame').and.returnValue(1);
+      spyOn(component.renderer, 'render');
+      const { sprite, skill } = nearest()[0];
+
+      component.animate();
+      expect(component.controls.autoRotate).toBeTrue();
+
+      hover(sprite);
+      component.animate();
+      expect(component.controls.autoRotate).toBeFalse();
+
+      component.onMouseMove(emptySpace());
+      component.selectedSkill = skill;
+      component.animate();
+      expect(component.controls.autoRotate).toBeFalse();
+
+      component.selectedSkill = null;
+      component.reducedMotion = true;
+      component.animate();
+      expect(component.controls.autoRotate).toBeFalse();
+    });
+
+    it('keeps the camera between the minimum and maximum distance', () => {
+      expect(component.controls.minDistance).toBeLessThan(component.camera.position.length());
+      expect(component.controls.maxDistance).toBeGreaterThan(component.camera.position.length());
+    });
+
+    it('colours and names categories, with no colour for "all"', () => {
+      expect(component.categoryColor('all')).toBeNull();
+      expect(component.categoryColor('ai')).toBe('#64ffda');
+      expect(component.categoryName('ai')).toBe('AI & LLM');
+    });
+
+    it('marks every category button with its colour, except "all"', () => {
+      const buttons = fixture.nativeElement.querySelectorAll('.category-btn') as NodeListOf<HTMLElement>;
+      expect(buttons[0].querySelector('.dot')).toBeNull();
+      expect(buttons[1].querySelector('.dot')).not.toBeNull();
+    });
+
+    it('names the category on the skill card', () => {
+      const { sprite } = nearest()[0];
+      component.onCanvasClick(new MouseEvent('click', pointAt(sprite)));
+      fixture.detectChanges();
+      const tag = fixture.nativeElement.querySelector('.category-tag') as HTMLElement;
+      expect(tag.textContent?.trim()).toBe(component.categoryName(component.selectedSkill.category));
+    });
+
+    it('shows the title, the legend and an open skill card in German', () => {
+      const { sprite, skill } = nearest()[0];
+      component.onCanvasClick(new MouseEvent('click', pointAt(sprite)));
+      fixture.detectChanges();
+      const card = () => fixture.nativeElement.querySelector('.skill-details p') as HTMLElement;
+      expect(card().textContent).toBe(component.describe(skill));
+
+      TestBed.inject(I18nService).set('de');
+      fixture.detectChanges();
+      expect(card().textContent).toBe(de.skillDescriptions[skill.name]);
+      expect(fixture.nativeElement.querySelector('h2').textContent).toContain('Meine Fähigkeiten');
+      const buttons = fixture.nativeElement.querySelectorAll('.category-btn') as NodeListOf<HTMLElement>;
+      expect(buttons[0].textContent).toContain('Alle Fähigkeiten');
+      expect(fixture.nativeElement.querySelector('.connections-btn').textContent).toContain('Verbindungen zeigen');
+      expect(fixture.nativeElement.querySelector('.instructions').textContent).toContain('Ziehen zum Drehen');
     });
 
     it('selects a category from its button', () => {

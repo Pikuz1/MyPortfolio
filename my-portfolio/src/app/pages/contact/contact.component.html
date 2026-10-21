@@ -1,106 +1,139 @@
-<section class="glass-section text-white animate-fadeIn">
-  <h1 class="text-3xl font-bold text-center mb-8">Contact Me</h1>
+<section class="glass-section glass-section--large text-white animate-fadeIn">
+  <h1 class="text-3xl font-bold text-center">{{ i18n.ui.contact.title }}</h1>
+  <p class="text-center text-gray-300 mt-2 mb-8">
+    {{ i18n.ui.contact.intro }}
+  </p>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
-    <!-- Contact Details -->
-    <div class="p-6 rounded-xl
-                bg-[rgba(10,25,47,0.2)] backdrop-blur-md
-                border border-[rgba(100,255,218,0.1)]
-                shadow-md">
+    <!-- Ways to reach me -->
+    <div class="lg:col-span-2 flex flex-col gap-4">
 
-      <h2 class="text-2xl font-semibold mb-3">Get in Touch</h2>
+      <div class="p-4 rounded-xl bg-[rgba(10,25,47,0.25)] backdrop-blur-md border border-[rgba(100,255,218,0.12)] shadow-md">
+        <div class="flex items-center gap-4">
+          <span class="icon-badge"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+          <div class="min-w-0 flex-1">
+            <p class="text-xs uppercase tracking-wide text-gray-400">{{ i18n.ui.contact.email }}</p>
+            <a href="mailto:{{ contact.email }}" class="text-cyan-300 hover:underline break-all text-sm sm:text-base">{{ contact.email }}</a>
+          </div>
+        </div>
+        <button type="button" (click)="copyEmail()"
+                class="mt-3 w-full py-2 rounded-lg text-sm border border-cyan-300/40 text-cyan-200
+                       hover:bg-cyan-300/10 transition">
+          <i class="far fa-copy mr-2" aria-hidden="true"></i>
+          @switch (copyState) {
+            @case ('copied') { {{ i18n.ui.contact.copied }} }
+            @case ('failed') { {{ i18n.ui.contact.copyFailed }} }
+            @default { {{ i18n.ui.contact.copyEmail }} }
+          }
+        </button>
+      </div>
 
-      <p class="text-lg mt-2">
-        Email:
-        <a href="mailto:{{ contact.email }}"
-           class="text-blue-400 hover:underline">
-           {{ contact.email }}
+      @for (profile of profiles; track profile.label) {
+        <a [href]="profile.href" target="_blank" rel="noopener noreferrer"
+           class="p-4 rounded-xl bg-[rgba(10,25,47,0.25)] backdrop-blur-md border border-[rgba(100,255,218,0.12)] shadow-md flex items-center gap-4 transition
+                  hover:-translate-y-0.5 hover:border-[rgba(100,255,218,0.35)]">
+          <span class="icon-badge"><i [class]="profile.icon" aria-hidden="true"></i></span>
+          <span class="min-w-0 flex-1">
+            <span class="block text-xs uppercase tracking-wide text-gray-400">{{ profile.label }}</span>
+            <span class="block truncate">{{ profile.handle }}</span>
+          </span>
+          <i class="fas fa-arrow-up-right-from-square text-gray-400 text-sm" aria-hidden="true"></i>
         </a>
-      </p>
+      }
 
-      <p class="text-lg text-gray-300 mt-2">
-        Location: {{ contact.address.location }}
-      </p>
+      <div class="p-4 rounded-xl bg-[rgba(10,25,47,0.25)] backdrop-blur-md border border-[rgba(100,255,218,0.12)] shadow-md flex items-center gap-4">
+        <span class="icon-badge"><i class="fas fa-location-dot" aria-hidden="true"></i></span>
+        <div>
+          <p class="text-xs uppercase tracking-wide text-gray-400">{{ i18n.ui.contact.location }}</p>
+          <p>{{ i18n.ui.contact.locationValue }}</p>
+          <p class="text-sm text-gray-400">{{ i18n.ui.contact.spokenLanguages }}</p>
+        </div>
+      </div>
     </div>
 
-    <!-- Map -->
-    <div class="p-2 rounded-xl
-                bg-[rgba(10,25,47,0.2)] backdrop-blur-md
-                border border-[rgba(100,255,218,0.1)]
-                shadow-md">
+    <!-- Message form -->
+    <div class="lg:col-span-3 p-5 sm:p-6 rounded-2xl bg-[rgba(10,25,47,0.3)] backdrop-blur-lg
+                border border-[rgba(100,255,218,0.12)] shadow-xl">
 
-      <iframe
-        class="w-full h-64 md:h-80 lg:h-96 rounded-lg"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42933.22469351866!2d10.264157779998873!3d47.736318603278555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c7907da67c911%3A0xbca5bb95c833b02b!2sKempten!5e0!3m2!1sen!2sde!4v1738253394505!5m2!1sen!2sde"
-        loading="lazy">
-      </iframe>
+      <h2 class="text-2xl font-semibold text-center">{{ i18n.ui.contact.formTitle }}</h2>
+      <p class="text-center text-gray-300 mb-6">{{ i18n.ui.contact.formSubtitle }}</p>
+
+      <form #contactForm="ngForm" (ngSubmit)="sendEmail(contactForm)" novalidate>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">{{ i18n.ui.contact.name }}</label>
+            <input id="name" type="text" name="name" autocomplete="name" required ngModel #name="ngModel"
+              class="w-full p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              [placeholder]="i18n.ui.contact.namePlaceholder">
+            @if (name.invalid && name.touched) {
+              <p class="text-sm text-red-300 mt-1">{{ i18n.ui.contact.nameError }}</p>
+            }
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-300 mb-1">{{ i18n.ui.contact.email }}</label>
+            <input id="email" type="email" name="email" autocomplete="email" required email ngModel #email="ngModel"
+              class="w-full p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              [placeholder]="i18n.ui.contact.emailPlaceholder">
+            @if (email.invalid && email.touched) {
+              <p class="text-sm text-red-300 mt-1">{{ i18n.ui.contact.emailError }}</p>
+            }
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="message" class="block text-sm font-medium text-gray-300 mb-1">{{ i18n.ui.contact.message }}</label>
+          <textarea id="message" name="message" rows="5" required ngModel #message="ngModel"
+            class="w-full p-3 rounded-lg resize-y bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
+                   focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            [placeholder]="i18n.ui.contact.messagePlaceholder"></textarea>
+          @if (message.invalid && message.touched) {
+            <p class="text-sm text-red-300 mt-1">{{ i18n.ui.contact.messageError }}</p>
+          }
+        </div>
+
+        <button type="submit" [disabled]="status === 'sending'"
+          class="w-full py-3 rounded-lg
+                 bg-gradient-to-r from-cyan-500 to-blue-600
+                 hover:from-cyan-400 hover:to-blue-500
+                 disabled:opacity-60 disabled:cursor-not-allowed
+                 transition-all duration-300 shadow-lg hover:shadow-xl">
+          {{ status === 'sending' ? i18n.ui.contact.sending : i18n.ui.contact.send }}
+        </button>
+
+        <div role="status" aria-live="polite" class="mt-4 text-center text-sm">
+          @if (status === 'success') {
+            <p class="text-green-300">{{ i18n.ui.contact.success }}</p>
+          }
+          @if (status === 'error') {
+            <p class="text-red-300">{{ i18n.ui.contact.error }}</p>
+          }
+        </div>
+
+      </form>
     </div>
   </div>
 
-  <!-- Contact Form -->
-  <div class="max-w-lg mx-auto mt-10 p-6 rounded-2xl
-              bg-[rgba(10,25,47,0.25)] backdrop-blur-lg
-              border border-[rgba(100,255,218,0.1)]
-              shadow-xl">
-
-    <h2 class="text-2xl font-semibold text-center mb-6">
-      Code, Coffee & Conversations ☕💻 <br> Let’s Connect!
-    </h2>
-
-    <form #contactForm="ngForm" (ngSubmit)="sendEmail(contactForm)" novalidate>
-
-      <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Name</label>
-        <input id="name" type="text" name="name" required ngModel #name="ngModel"
-          class="w-full p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
-                 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Your name">
-        @if (name.invalid && name.touched) {
-          <p class="text-sm text-red-300 mt-1">Please enter your name.</p>
-        }
+  <!-- Map: only loaded on request, so Google gets no data until you choose to open it -->
+  <div class="mt-6 rounded-xl overflow-hidden bg-[rgba(10,25,47,0.25)] backdrop-blur-md border border-[rgba(100,255,218,0.12)] shadow-md">
+    @if (showMap) {
+      <iframe [title]="i18n.ui.contact.mapTitle"
+        class="w-full h-64 md:h-80 block [filter:invert(90%)_hue-rotate(180deg)_contrast(0.9)]"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d42933.22469351866!2d10.264157779998873!3d47.736318603278555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479c7907da67c911%3A0xbca5bb95c833b02b!2sKempten!5e0!3m2!1sen!2sde!4v1738253394505!5m2!1sen!2sde"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    } @else {
+      <div class="p-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center">
+        <p><i class="fas fa-location-dot text-cyan-300 mr-2" aria-hidden="true"></i>{{ i18n.ui.contact.locationValue }}</p>
+        <button type="button" (click)="showMap = true"
+                class="px-5 py-2 rounded-lg text-sm border border-cyan-300/40 text-cyan-200 hover:bg-cyan-300/10 transition">
+          {{ i18n.ui.contact.loadMap }}
+        </button>
+        <p class="text-xs text-gray-400">{{ i18n.ui.contact.mapNote }}</p>
       </div>
-
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
-        <input id="email" type="email" name="email" required email ngModel #email="ngModel"
-          class="w-full p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
-                 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="your@email.com">
-        @if (email.invalid && email.touched) {
-          <p class="text-sm text-red-300 mt-1">Please enter a valid email address.</p>
-        }
-      </div>
-
-      <div class="mb-4">
-        <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Message</label>
-        <textarea id="message" name="message" rows="4" required ngModel #message="ngModel"
-          class="w-full p-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/10 text-white placeholder-gray-400
-                 focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          placeholder="Your message..."></textarea>
-        @if (message.invalid && message.touched) {
-          <p class="text-sm text-red-300 mt-1">Please write a message.</p>
-        }
-      </div>
-
-      <button type="submit" [disabled]="status === 'sending'"
-        class="w-full py-3 rounded-lg
-               bg-gradient-to-r from-cyan-500 to-blue-600
-               hover:from-cyan-400 hover:to-blue-500
-               disabled:opacity-60 disabled:cursor-not-allowed
-               transition-all duration-300 shadow-lg hover:shadow-xl">
-        {{ status === 'sending' ? 'Sending...' : 'Send Message' }}
-      </button>
-
-      <div role="status" aria-live="polite" class="mt-4 text-center text-sm">
-        @if (status === 'success') {
-          <p class="text-green-300">Thank you! Your message has been sent.</p>
-        }
-        @if (status === 'error') {
-          <p class="text-red-300">Something went wrong. Please try again or email me directly.</p>
-        }
-      </div>
-
-    </form>
+    }
   </div>
 </section>

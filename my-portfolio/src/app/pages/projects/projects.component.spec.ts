@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProjectsComponent } from './projects.component';
+import { I18nService } from '../../i18n/i18n.service';
 
 describe('ProjectsComponent', () => {
   let component: ProjectsComponent;
@@ -31,5 +32,13 @@ describe('ProjectsComponent', () => {
 
   it('tilts every card', () => {
     expect(el.querySelectorAll('[appTilt]').length).toBe(component.projects.length);
+  });
+
+  it('shows the German texts', () => {
+    TestBed.inject(I18nService).set('de');
+    fixture.detectChanges();
+    expect(el.querySelector('h1')?.textContent).toContain('Projekte');
+    expect(el.textContent).toContain('Mehrsprachiger Assistent');
+    expect(el.querySelector('a')?.textContent).toContain('Auf GitHub ansehen');
   });
 });

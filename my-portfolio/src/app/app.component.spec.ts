@@ -28,4 +28,14 @@ describe('AppComponent', () => {
       .forEach(selector => expect(el.querySelector(selector)).not.toBeNull());
     fixture.destroy();
   });
+
+  it('keeps the footer at the bottom of a window taller than the page', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    const footer = host.querySelector('footer') as HTMLElement;
+    expect(host.getBoundingClientRect().height).toBeGreaterThanOrEqual(window.innerHeight);
+    expect(footer.getBoundingClientRect().bottom).toBeCloseTo(host.getBoundingClientRect().bottom, 0);
+    fixture.destroy();
+  });
 });
