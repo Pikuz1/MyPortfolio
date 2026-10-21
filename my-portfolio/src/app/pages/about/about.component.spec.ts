@@ -24,6 +24,13 @@ describe('AboutComponent', () => {
     expect(el.querySelectorAll('section > .container.mt-6 p').length).toBe(component.about.description.length);
   });
 
+  it('shows the portrait with the name as its alt text', () => {
+    const photo = el.querySelector('img') as HTMLImageElement;
+    expect(photo.getAttribute('src')).toBe(component.about.photo);
+    expect(photo.alt).toBe(component.about.name);
+    expect(photo.hasAttribute('appTilt')).toBeTrue();
+  });
+
   it('renders the How I Work cards', () => {
     expect(el.textContent).toContain('How I Work');
     expect(el.querySelectorAll('h3').length).toBe(component.about.howIWork.length);

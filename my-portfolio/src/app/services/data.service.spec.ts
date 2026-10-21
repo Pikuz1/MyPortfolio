@@ -15,6 +15,7 @@ describe('DataService', () => {
     expect(about.role).toContain('AI Engineer');
     expect(about.description.length).toBeGreaterThan(0);
     expect(about.resumeLink).toMatch(/\.pdf$/);
+    expect(about.photo).toMatch(/\.webp$/);
     expect(about.howIWork.length).toBeGreaterThan(0);
   });
 

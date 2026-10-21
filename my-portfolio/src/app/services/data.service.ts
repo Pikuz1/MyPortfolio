@@ -29,6 +29,7 @@ export class DataService {
         machine learning.`
       ],
       resumeLink: '/assets/Priyanka_Giri_AI_Engineer.pdf',
+      photo: 'assets/priyanka-portrait.webp',
       howIWork: [
         {
           title: 'AI features I can measure',

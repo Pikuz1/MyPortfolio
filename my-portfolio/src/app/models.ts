@@ -3,6 +3,7 @@ export interface AboutMe {
   role: string;
   description: string[];
   resumeLink: string;
+  photo: string;
   howIWork: { title: string; text: string }[];
 }
 

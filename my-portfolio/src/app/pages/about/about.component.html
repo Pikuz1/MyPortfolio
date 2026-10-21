@@ -1,7 +1,15 @@
 <section class="glass-section animate-fadeIn">
-  <div class="container mx-auto text-center">
-    <h1 class="text-4xl font-bold mb-4">{{ about.name }}</h1>
-    <h2 class="text-2xl font-semibold">{{ about.role }}</h2>
+  <div class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8">
+    <img [src]="about.photo" [alt]="about.name" appTilt [tiltMax]="12"
+         width="224" height="224" fetchpriority="high"
+         class="w-44 h-44 md:w-56 md:h-56 rounded-full object-cover flex-shrink-0
+                border-4 border-[rgba(100,255,218,0.35)]
+                shadow-[0_0_40px_rgba(100,255,218,0.25)]
+                brightness-90 transition-transform duration-300">
+    <div class="text-center md:text-left">
+      <h1 class="text-4xl font-bold mb-4">{{ about.name }}</h1>
+      <h2 class="text-2xl font-semibold">{{ about.role }}</h2>
+    </div>
   </div>
 
   <div class="container mx-auto mt-6">
