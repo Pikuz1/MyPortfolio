@@ -24,4 +24,10 @@ describe('routes', () => {
       expect(component.name).toBe(name);
     }
   });
+
+  it('gives every lazy page its own title', () => {
+    routes.filter(r => r.path !== '').forEach(route => {
+      expect(String(route.title)).withContext(String(route.path)).toMatch(/ \| Priyanka Giri$/);
+    });
+  });
 });

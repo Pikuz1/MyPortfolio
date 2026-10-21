@@ -69,6 +69,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.renderer) {
       this.renderer.dispose();
+      this.renderer.forceContextLoss(); // browsers only allow a handful of live WebGL contexts
     }
   }
 

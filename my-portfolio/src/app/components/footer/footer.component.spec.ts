@@ -21,4 +21,8 @@ describe('FooterComponent', () => {
       .map(a => a.getAttribute('href'));
     expect(hrefs).toEqual([component.contact.linkedin, component.contact.github]);
   });
+
+  it('shows the current year in the copyright', () => {
+    expect(fixture.nativeElement.textContent).toContain(`${new Date().getFullYear()} Priyanka Giri`);
+  });
 });

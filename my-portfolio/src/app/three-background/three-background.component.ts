@@ -1,9 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
-import * as THREE from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import type * as THREE from 'three';
+import type { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { BackgroundService } from '../services/background.service';
 import { prefersReducedMotion } from '../three/motion';
 import { sampleTextPoints } from '../three/text-points';
@@ -25,6 +23,10 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
   private driftPositions!: Float32Array;
   private initialsPositions!: Float32Array;
   private reducedMotion = false;
+  private destroyed = false;
+
+  /** Resolves once Three.js has loaded and the scene is running. */
+  ready: Promise<void> = Promise.resolve();
   private readonly onResizeHandler = () => this.onResize();
   private readonly onMouseMoveHandler = (event: MouseEvent) => this.onMouseMove(event);
 
@@ -38,12 +40,27 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.initScene();
+    // Three.js is large, so it is fetched after the page is already visible
+    this.ready = this.start();
+  }
+
+  private async start(): Promise<void> {
+    const [three, composer, renderPass, bloomPass] = await Promise.all([
+      import('three'),
+      import('three/examples/jsm/postprocessing/EffectComposer.js'),
+      import('three/examples/jsm/postprocessing/RenderPass.js'),
+      import('three/examples/jsm/postprocessing/UnrealBloomPass.js')
+    ]);
+    if (this.destroyed) {
+      return;
+    }
+    this.initScene(three, composer.EffectComposer, renderPass.RenderPass, bloomPass.UnrealBloomPass);
     this.animate();
     this.addMouseParallax();
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -54,9 +71,15 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener('mousemove', this.onMouseMoveHandler);
     this.composer?.dispose();
     this.renderer?.dispose();
+    this.renderer?.forceContextLoss();
   }
 
-  initScene() {
+  initScene(
+    THREE: typeof import('three'),
+    Composer: typeof import('three/examples/jsm/postprocessing/EffectComposer.js').EffectComposer,
+    RenderPass: typeof import('three/examples/jsm/postprocessing/RenderPass.js').RenderPass,
+    UnrealBloomPass: typeof import('three/examples/jsm/postprocessing/UnrealBloomPass.js').UnrealBloomPass
+  ) {
     const canvas = this.canvasRef.nativeElement;
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -110,7 +133,7 @@ export class ThreeBackgroundComponent implements AfterViewInit, OnDestroy {
       0.85   // threshold
     );
 
-    this.composer = new EffectComposer(this.renderer);
+    this.composer = new Composer(this.renderer);
     this.composer.addPass(renderPass);
     this.composer.addPass(bloomPass);
 

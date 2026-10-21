@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://priyanka-giri-fullstack-developer.netlify.app/sitemap.xml

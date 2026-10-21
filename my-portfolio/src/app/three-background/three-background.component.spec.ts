@@ -20,6 +20,7 @@ describe('ThreeBackgroundComponent', () => {
       fixture = await create('browser');
       component = fixture.componentInstance;
       fixture.detectChanges();
+      await component.ready;
     });
 
     afterEach(() => fixture.destroy());
@@ -60,6 +61,7 @@ describe('ThreeBackgroundComponent', () => {
       const cancel = spyOn(window, 'cancelAnimationFrame');
       const removeListener = spyOn(window, 'removeEventListener').and.callThrough();
       const disposeRenderer = spyOn(component.renderer, 'dispose');
+      const loseContext = spyOn(component.renderer, 'forceContextLoss');
       const disposeComposer = spyOn(component.composer, 'dispose');
       component.frameId = 3;
       fixture.destroy();
@@ -67,6 +69,7 @@ describe('ThreeBackgroundComponent', () => {
       expect(removeListener).toHaveBeenCalledWith('resize', jasmine.any(Function));
       expect(removeListener).toHaveBeenCalledWith('mousemove', jasmine.any(Function));
       expect(disposeRenderer).toHaveBeenCalled();
+      expect(loseContext).toHaveBeenCalled();
       expect(disposeComposer).toHaveBeenCalled();
     });
   });
@@ -95,6 +98,7 @@ describe('ThreeBackgroundComponent', () => {
       component = fixture.componentInstance;
       background = TestBed.inject(BackgroundService);
       fixture.detectChanges();
+      await component.ready;
     });
 
     afterEach(() => fixture.destroy());
@@ -126,6 +130,7 @@ describe('ThreeBackgroundComponent', () => {
       const fixture = await create('browser');
       const component: any = fixture.componentInstance;
       fixture.detectChanges();
+      await component.ready;
       spyOn(window, 'requestAnimationFrame').and.returnValue(1);
       spyOn(component.composer, 'render');
 
@@ -144,6 +149,15 @@ describe('ThreeBackgroundComponent', () => {
   it('can be destroyed before it was initialised', async () => {
     const fixture = await create('browser');
     expect(() => fixture.destroy()).not.toThrow();
+  });
+
+  it('does not build the scene when destroyed while Three.js is loading', async () => {
+    const fixture = await create('browser');
+    const component: any = fixture.componentInstance;
+    fixture.detectChanges();
+    fixture.destroy();
+    await component.ready;
+    expect(component.scene).toBeUndefined();
   });
 
   it('does not touch WebGL on the server', async () => {

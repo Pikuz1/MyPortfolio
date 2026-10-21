@@ -10,6 +10,7 @@ import { DataService } from '../../services/data.service';
 })
 export class FooterComponent {
   contact = this.dataService.getContact(); // Fetch contact data
+  year = new Date().getFullYear();
 
   constructor(private dataService: DataService) { }
 }

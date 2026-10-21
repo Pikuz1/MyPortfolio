@@ -187,10 +187,12 @@ describe('SkillsComponent', () => {
     it('cancels the animation and releases WebGL when destroyed', () => {
       const cancel = spyOn(window, 'cancelAnimationFrame');
       const dispose = spyOn(component.renderer, 'dispose');
+      const loseContext = spyOn(component.renderer, 'forceContextLoss');
       component.frameId = 4;
       fixture.destroy();
       expect(cancel).toHaveBeenCalledWith(4);
       expect(dispose).toHaveBeenCalled();
+      expect(loseContext).toHaveBeenCalled();
     });
   });
 
