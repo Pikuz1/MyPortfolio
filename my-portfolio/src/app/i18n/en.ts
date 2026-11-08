@@ -187,6 +187,16 @@ export const en: Content = {
   ],
   "projects": [
     {
+      "title": "Token X-Ray: Check What a Token Issuer Can Do",
+      "institution": "Personal Project (Nov 2026)",
+      "link": "https://pikuz1.github.io/TokenXRay/",
+      "description": [
+        "Built a web tool where you paste an Ethereum token address and see what the issuer can do: pause transfers, freeze wallets, mint tokens, upgrade the contract, plus admin control and holder concentration (Nuxt, Vue, TypeScript, viem).",
+        "Says \"Unknown\" instead of guessing when data is missing and shows a confidence summary. Quick checks appear first, slower holder data fills in later, and results can be saved as a PDF report.",
+        "Production-minded: 100% test coverage, Playwright E2E tests, and GitHub Actions CI with automatic deploy to GitHub Pages."
+      ]
+    },
+    {
       "title": "DocuMind: Multilingual RAG Assistant for Contracts",
       "institution": "Personal Project (Oct 2026)",
       "link": "https://github.com/Pikuz1/Documind",
@@ -311,6 +321,8 @@ export const en: Content = {
     "Reinforcement Learning": "Training agents through reward signals; applied to packet routing in wireless networks at Paderborn University.",
     "React": "A JavaScript library for building user interfaces with component-based architecture and virtual DOM.",
     "Angular": "A platform for building mobile and desktop web applications with TypeScript and RxJS.",
+    "Nuxt": "A Vue framework for building fast web apps with file-based routing and static site generation.",
+    "viem": "A TypeScript library for reading data from Ethereum contracts, used to check token permissions on-chain.",
     "Vue.js": "A progressive framework for building user interfaces with intuitive API and composition API.",
     "Next.js": "A React framework for server-rendered and statically generated web applications.",
     "RxJS / NgRx": "Reactive programming and state management for Angular applications.",

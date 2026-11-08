@@ -37,8 +37,9 @@ describe('DataService', () => {
 
   it('returns projects and links the ones with a public repository', () => {
     const projects = service.getProjects();
-    expect(projects[0].title).toContain('DocuMind');
+    expect(projects[0].title).toContain('Token X-Ray');
     expect(projects.filter(p => p.link).map(p => p.link)).toEqual([
+      'https://pikuz1.github.io/TokenXRay/',
       'https://github.com/Pikuz1/Documind',
       'https://github.com/Pikuz1/SmartFactoryDigitalTwin',
       'https://github.com/Pikuz1/NearShortestPathfinding'
@@ -65,7 +66,7 @@ describe('DataService', () => {
     i18n.set('de');
     expect(service.getAboutMe().role).toContain('KI-Engineer');
     expect(service.getExperience()[0].location).toBe('Hamburg, Deutschland');
-    expect(service.getProjects()[0].title).toContain('Mehrsprachiger');
+    expect(service.getProjects()[0].title).toContain('Herausgeber');
     expect(service.getEducation()[0].school).toBe('Universität Paderborn');
     expect(service.getLanguages().map(l => l.name)).toEqual(['Englisch', 'Deutsch']);
     expect(service.getCertifications()[0].year).toBe('In Arbeit');

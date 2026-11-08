@@ -187,6 +187,16 @@ export const de: Content = {
   ],
   "projects": [
     {
+      "title": "Token X-Ray: Was kann der Herausgeber eines Tokens tun?",
+      "institution": "Persönliches Projekt (Nov 2026)",
+      "link": "https://pikuz1.github.io/TokenXRay/",
+      "description": [
+        "Ein Web-Tool gebaut: Man gibt eine Ethereum-Token-Adresse ein und sieht, was der Herausgeber tun kann, zum Beispiel Übertragungen stoppen, Wallets sperren, neue Token erzeugen oder den Vertrag ändern. Dazu kommen Admin-Kontrolle und die Verteilung auf große Halter (Nuxt, Vue, TypeScript, viem).",
+        "Wenn Daten fehlen, steht dort \"Unknown\" statt einer Vermutung, und eine Übersicht zeigt, wie sicher die Daten sind. Schnelle Prüfungen erscheinen zuerst, langsamere Daten folgen später, und das Ergebnis lässt sich als PDF speichern.",
+        "Bereit für den Einsatz: 100 % Testabdeckung, Playwright-E2E-Tests und GitHub Actions mit automatischer Veröffentlichung auf GitHub Pages."
+      ]
+    },
+    {
       "title": "DocuMind: Mehrsprachiger Assistent für Verträge (RAG)",
       "institution": "Persönliches Projekt (Okt 2026)",
       "link": "https://github.com/Pikuz1/Documind",
@@ -312,6 +322,8 @@ export const de: Content = {
     "Reinforcement Learning": "Ein Computer lernt durch Belohnung. An der Universität Paderborn habe ich es für Datenpakete in Funknetzen genutzt.",
     "React": "Eine JavaScript-Bibliothek für Benutzeroberflächen aus wiederverwendbaren Bausteinen.",
     "Angular": "Ein Framework für Web-Anwendungen mit TypeScript und RxJS.",
+    "Nuxt": "Ein Framework auf Basis von Vue für schnelle Web-Apps mit Seiten aus Dateien und statischer Ausgabe.",
+    "viem": "Eine TypeScript-Bibliothek, um Daten aus Ethereum-Verträgen zu lesen. Damit prüfe ich die Rechte eines Tokens.",
     "Vue.js": "Ein einfaches Framework für Benutzeroberflächen.",
     "Next.js": "Ein Framework auf Basis von React für schnelle Webseiten, die auf dem Server vorbereitet werden.",
     "RxJS / NgRx": "Werkzeuge, um Daten und Zustände in Angular-Anwendungen zu verwalten.",
