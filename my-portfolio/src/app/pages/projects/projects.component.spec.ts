@@ -26,8 +26,8 @@ describe('ProjectsComponent', () => {
   it('links only the projects that have a link', () => {
     const links = el.querySelectorAll('a');
     expect(links.length).toBe(component.projects.filter(p => p.link).length);
-    expect(links[0].getAttribute('href')).toBe('https://github.com/Pikuz1/Documind');
-    expect(links.length).toBe(3);
+    expect(links[0].getAttribute('href')).toBe('https://pikuz1.github.io/TokenXRay/');
+    expect(links.length).toBe(4);
   });
 
   it('tilts every card', () => {
